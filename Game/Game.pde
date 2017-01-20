@@ -31,4 +31,9 @@ void draw()
 {
   background(0);
   stroke(255);
+  for (int i = thing.size() -1; i >=0; i --)
+  {
+    Object ob = thing.get(i);
+    ob.render();
+  }
 }
