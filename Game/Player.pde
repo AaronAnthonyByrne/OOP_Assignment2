@@ -75,12 +75,49 @@ class Player extends Object
     }
     if (checkKey(left))
     {
-      theta =- 0.1f;
+      theta -= 0.1f;
     }
     if (checkKey(right))
     {
       theta += 0.1f;
     }
-  }
 
+    if (checkKey(shoot) && elapsed > toPass && ammo > 0)
+    {
+      PVector bp = PVector.add(pos, PVector.mult(forward, 40));
+     // Bullet b = new Bullet(bp.x, bp.y, theta, 20, 5);
+      //gameObjects.add(b);
+      elapsed = 0;
+      ammo --;
+    }
+
+    PlayerAcc = PVector.div(force, mass);
+    velocity.add(PVector.mult(PlayerAcc, timeDelta));
+    pos.add(PVector.mult(velocity, timeDelta));
+    force.x = force.y = 0;
+    velocity.mult(0.9f);
+    elapsed += timeDelta;
+
+    /* for (int i = 0; i < thing.size(); i ++)
+     {
+     Object go = Object.get(i);
+     if (go instanceof Bullet)
+     {
+     Bullet b = (Bullet) go;
+     if (dist(go.pos.x, go.pos.y, this.pos.x, this.pos.y) < radius)
+     {
+     health --;
+     gameObjects.remove(b);
+     }
+     }
+     if (go instanceof Powerup)
+     {
+     Powerup p = (Powerup) go; // p is of type oowerup so the only method we can call on p is applyTo
+     if (dist(go.pos.x, go.pos.y, this.pos.x, this.pos.y) < radius + 15)
+     {
+     p.applyTo(this);
+     gameObjects.remove(go);
+     }
+     }*/
+  }
 }
