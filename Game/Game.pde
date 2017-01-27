@@ -1,6 +1,6 @@
 void setup()
 {
-  size(500, 500);
+  size(1200, 650);
   Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd', ' ');
   thing.add(player);
 }
