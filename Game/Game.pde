@@ -39,10 +39,10 @@ void draw()
     ob.render();
   }
 
-  if (frameCount % 60 == 0)
+ /* if (frameCount % 60 == 0)
   {
     Powerup power = new Powerup();
     power.pos = new PVector(random(0, width), random(0, height));
     gameObjects.add(ammo);
-  }
+  }*/
 }

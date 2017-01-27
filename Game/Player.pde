@@ -40,9 +40,9 @@ class Player extends Object
   void create()
   {
     cowboy= createShape(GROUP);
-    head= createShape(ELLIPSE, -25, 0, 50, 50);
+    head= createShape(ELLIPSE, 0, 0, 25, 25);
     head.setFill(color(255));
-    body = createShape(RECT, -50, -50, 50, 50);
+    body = createShape(RECT, -25, -12.5, 50, 25);
     body.setFill(color(255));
 
     cowboy.addChild(body);
@@ -59,6 +59,28 @@ class Player extends Object
     shape(cowboy, 0, 0);
     popMatrix();
   }
-  
-  
-  
+
+  void update()
+  {
+    forward.x= sin(theta);
+    forward.y = -cos(theta);
+
+    if (checkKey(up))
+    {
+      force.add(PVector.mult(forward, power));
+    }
+    if (checkKey(down))
+    {
+      force.add(PVector.mult(forward, -power));
+    }
+    if (checkKey(left))
+    {
+      theta =- 0.1f;
+    }
+    if (checkKey(right))
+    {
+      theta += 0.1f;
+    }
+  }
+
+}
