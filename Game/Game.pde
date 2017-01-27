@@ -41,8 +41,8 @@ void draw()
 
  if (frameCount % 60 == 0)
   {
-    Charge power = new Charge();
+    Gun power = new Gun();
     power.pos = new PVector(random(0, width), random(0, height));
-    gameObjects.add(ammo);
+    thing.add(power);
   }
 }

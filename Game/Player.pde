@@ -100,23 +100,23 @@ class Player extends Object
 
     for (int i = 0; i < thing.size(); i ++)
     {
-      Object go = thing.get(i);
-      if (go instanceof Bullet)
+      Object ob = thing.get(i);
+      if (ob instanceof Bullet)
       {
-        Bullet b = (Bullet) go;
-        if (dist(go.pos.x, go.pos.y, this.pos.x, this.pos.y) < centre)
+        Bullet b = (Bullet) ob;
+        if (dist(ob.pos.x, ob.pos.y, this.pos.x, this.pos.y) < centre)
         {
           health --;
           thing.remove(b);
         }
       }
-      if (go instanceof Charge)
+      if (ob instanceof Charge)
       {
-        Charge power = (Charge) go; 
-        if (dist(go.pos.x, go.pos.y, this.pos.x, this.pos.y) < centre + 15)
+        Charge p = (Charge) ob; 
+        if (dist(ob.pos.x, ob.pos.y, this.pos.x, this.pos.y) < centre + 15)
         {
-          power.applyTo(this);
-          thing.remove(go);
+          p.applyTo(this);
+          thing.remove(ob);
         }
       }
     }
