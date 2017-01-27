@@ -1,0 +1,64 @@
+class Player extends Object
+{
+  PVector velocity;
+  PVector PlayerAcc;
+  PVector force;
+
+  float power = 100;
+  float fireRate = 2;
+  float toPass = 1.0 / fireRate;
+  float elapsed = toPass;
+  float theta;
+  float centre;
+  float mass =1;
+  PShape cowboy, head, body;
+  char up, down, left, right, shoot;
+  int health;
+  int ammo;
+
+  Player(float x, float y, float theta, float size, char up, char down, char left, char right, char shoot)
+  {
+    pos = new PVector(x, y);
+    forward = new PVector(0, -1);
+    PlayerAcc = new PVector(0, 0);
+    velocity = new PVector(0, 0);
+    force = new PVector(0, 0);
+    this.theta = theta;
+    this.size = size;
+    centre = size / 2;
+
+    this.left = left;
+    this.right = right;
+    this.up = up;
+    this.down = down;
+    this.shoot = shoot;
+    this.health = 10;
+    this.ammo = 10;
+    create();
+  }
+
+  void create()
+  {
+    cowboy= createShape(GROUP);
+    head= createShape(ELLIPSE, -25, 0, 50, 50);
+    head.setFill(color(255));
+    body = createShape(RECT, -50, -50, 50, 50);
+    body.setFill(color(255));
+
+    cowboy.addChild(body);
+    cowboy.addChild(head);
+  }
+
+  void render()
+  {
+    pushMatrix();
+    translate(pos.x, pos.y);
+
+    //insert health and ammo here
+    rotate(theta);
+    shape(cowboy, 0, 0);
+    popMatrix();
+  }
+  
+  
+  
