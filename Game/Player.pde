@@ -100,7 +100,7 @@ class Player extends Object
 
     for (int i = 0; i < thing.size(); i ++)
     {
-      Object go = Object.get(i);
+      Object go = thing.get(i);
       if (go instanceof Bullet)
       {
         Bullet b = (Bullet) go;
@@ -110,14 +110,15 @@ class Player extends Object
           thing.remove(b);
         }
       }
-      if (go instanceof Powerup)
+      if (go instanceof Charge)
       {
-        Powerup p = (Powerup) go; 
+        Charge power = (Charge) go; 
         if (dist(go.pos.x, go.pos.y, this.pos.x, this.pos.y) < centre + 15)
         {
-          p.applyTo(this);
+          power.applyTo(this);
           thing.remove(go);
         }
       }
     }
   }
+}
