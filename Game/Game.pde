@@ -13,7 +13,7 @@ boolean[] keys = new boolean[1000];//to allow multiple key presses
 boolean gameOn, win, wComplete, menu;
 
 //float and int global variables
-float timeDelta = 1.0f/60.0f; //to control the time
+float timeDelta = 1.0f/60.0f; //to control the time(not sure if needed)
 int state =0; 
 int menuTime, menuAllowance; // to control time of the menu.
 
@@ -46,24 +46,22 @@ void draw()
   if (state ==0)
   {
     drawMenu();
-  }
-  else if(state == 1)
+  } else if (state == 1)
   {
-    drawGame();
-  }
-  else if (state == 2)
-  {
-    gameOVer();
+    /* drawGame();
+     } else if (state == 2)
+     {
+     gameOver();
+     }*/
   }
 }
-
 //Print menu to screen
 void drawMenu()
 {
   fill(255);
   textAlign(CENTER);
   rectMode(CENTER);
-  
+
   if (millis()- menuTime > menuAllowance)
   {
     menu = !menu;
@@ -72,25 +70,50 @@ void drawMenu()
   if (menu == true)
   {
     textSize(35);
-    text("~~~ Press ENTER to Begin ~~", width/2, height/2 + 50);
-  }
-  //print out all object to the screen.
-  for (int i = item.size() -1; i >=0; i --)
-  {
-    Object ob = item.get(i);
-    ob.update();
-    ob.render();
+    text("~~ Press ENTER to Begin ~~", width/2, height/2 + 50);
   }
 
-  int count =0;
-  if (frameCount % 60 == 0)
-  {
-    count ++;
-    if (count == 5)
-    {
-      Gun power = new Gun();
-      power.pos = new PVector(random(0, width), random(0, height));
-      item.add(power);
-    }
-  }
+  /*
+  ///
+   ////
+   TEXT FONT HERE!!
+   */
+  textSize(100);
+  fill(255);
+  text("Zombie Attack", width/2, height/2-110);
+  textSize(35);
+  text("by Aaron Byrne, C15709609", width/2, height/2-60);
+  text("Controls: ", width/2 - 200, height/2 + 200);
+  stroke(255);
+  strokeWeight(3);
+  line(width/2 - 270, height/2 + 210, width/2 - 130, height/2 + 210);
+  textSize(20);
+  text("W A S D / Arrow Keys: Move", width/2 - 200, height/2 + 250);
+  text("Mouse: Aim and Shoot", width/2 - 200, height/2 + 300);
+  text("How to Play: ", width/2 + 200, height/2 + 200);
+  stroke(255);
+  strokeWeight(3);
+  line(width/2 + 130, height/2 + 210, width/2 + 270, height/2 + 210);
+  text("Shoot -->", width/2 + 200, height/2 + 250);
+  text("Collect -->", width/2 + 200, height/2 + 300);
+  /*
+  //print out all object to the screen.
+   for (int i = item.size() -1; i >=0; i --)
+   {
+   Object ob = item.get(i);
+   ob.update();
+   ob.render();
+   }
+   
+   int count =0;
+   if (frameCount % 60 == 0)
+   {
+   count ++;
+   if (count == 5)
+   {
+   Gun power = new Gun();
+   power.pos = new PVector(random(0, width), random(0, height));
+   item.add(power);
+   }
+   }*/
 }
