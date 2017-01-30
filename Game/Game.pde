@@ -2,13 +2,14 @@ void setup()
 {
   size(1200, 650);
   Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd', ' ');
-  thing.add(player);
+  item.add(player);
 }
 
-ArrayList<Object> thing = new ArrayList<Object>();
+ArrayList<Object> item = new ArrayList<Object>();
 boolean[] keys = new boolean[1000];//to allow multiple key presses
 float timeDelta = 1.0f/60.0f; //to control the time
 
+//checking for key presses. 
 void keyPressed()
 {
   keys[keyCode] = true;
@@ -32,17 +33,24 @@ void draw()
 {
   background(0);
   stroke(255);
-  for (int i = thing.size() -1; i >=0; i --)
+
+  //print out all object to the screen.
+  for (int i = item.size() -1; i >=0; i --)
   {
-    Object ob = thing.get(i);
+    Object ob = item.get(i);
     ob.update();
     ob.render();
   }
 
- if (frameCount % 60 == 0)
+  int count =0;
+  if (frameCount % 60 == 0)
   {
-    Gun power = new Gun();
-    power.pos = new PVector(random(0, width), random(0, height));
-    thing.add(power);
+    count ++;
+    if (count == 5)
+    {
+      Gun power = new Gun();
+      power.pos = new PVector(random(0, width), random(0, height));
+      item.add(power);
+    }
   }
 }

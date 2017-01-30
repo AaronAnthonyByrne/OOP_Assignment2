@@ -54,7 +54,7 @@ class Bullet extends Object
     fired += timeDelta;
     if (fired > expiry)
     {
-      thing.remove(this);
+      item.remove(this);
     }
   }
 }

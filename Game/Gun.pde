@@ -6,7 +6,7 @@ class Gun extends Object implements Charge
   
   void applyto(Player player)
   {
-    player.ammo++;
+    player.power++;
   }
   
   void render()

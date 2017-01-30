@@ -4,7 +4,7 @@ class Player extends Object
   PVector PlayerAcc;
   PVector force;
 
-  float power = 100;
+  float speed = 100;
   float fireRate = 2;
   float toPass = 1.0 / fireRate;
   float elapsed = toPass;
@@ -14,7 +14,7 @@ class Player extends Object
   PShape cowboy, head, body;
   char up, down, left, right, shoot;
   int health;
-  int ammo;
+  int power;
 
   Player(float x, float y, float theta, float size, char up, char down, char left, char right, char shoot)
   {
@@ -33,7 +33,7 @@ class Player extends Object
     this.down = down;
     this.shoot = shoot;
     this.health = 10;
-    this.ammo = 10;
+    this.power = 10;
     create();
   }
 
@@ -54,7 +54,7 @@ class Player extends Object
     pushMatrix();
     translate(pos.x, pos.y);
 
-    //insert health and ammo here
+    //insert health and power here
     rotate(theta);
     shape(cowboy, 0, 0);
     popMatrix();
@@ -82,13 +82,13 @@ class Player extends Object
       theta += 0.1f;
     }
 
-    if (checkKey(shoot) && elapsed > toPass && ammo > 0)
+    if (checkKey(shoot) && elapsed > toPass && power > 0)
     {
       PVector bp = PVector.add(pos, PVector.mult(forward, 40));
       // Bullet b = new Bullet(bp.x, bp.y, theta, 20, 5);
       //gameObjects.add(b);
       elapsed = 0;
-      ammo --;
+      power --;
     }
 
     PlayerAcc = PVector.div(force, mass);
@@ -98,16 +98,16 @@ class Player extends Object
     velocity.mult(0.9f);
     elapsed += timeDelta;
 
-    for (int i = 0; i < thing.size(); i ++)
+    for (int i = 0; i < item.size(); i ++)
     {
-      Object ob = thing.get(i);
+      Object ob = item.get(i);
       if (ob instanceof Bullet)
       {
         Bullet b = (Bullet) ob;
         if (dist(ob.pos.x, ob.pos.y, this.pos.x, this.pos.y) < centre)
         {
           health --;
-          thing.remove(b);
+          item.remove(b);
         }
       }
       if (ob instanceof Charge)
@@ -116,7 +116,7 @@ class Player extends Object
         if (dist(ob.pos.x, ob.pos.y, this.pos.x, this.pos.y) < centre + 15)
         {
           p.applyTo(this);
-          thing.remove(ob);
+          item.remove(ob);
         }
       }
     }

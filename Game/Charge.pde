@@ -1,4 +1,4 @@
 interface Charge
 {
-  void applyto(Player player);
+  void applyto(Player p);
 }
