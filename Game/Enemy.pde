@@ -1,7 +1,14 @@
 class Enemy extends Object
 {
-  Enemy()
+  PShape EnemyBody;
+  float theta,size;
+  
+  Enemy(float x, float y, float theta, float size)
   {
+    pos = new PVector(x, y);
+    forward = new PVector(0, -1);
+    this.theta = theta;
+    this.size = size;
   }
   
   void create()
@@ -12,6 +19,10 @@ class Enemy extends Object
   }
   void render()
   {
+    
+
+   //shape(EnemyBody);
+    
   }
   
   void update()
