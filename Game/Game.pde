@@ -17,6 +17,9 @@ float timeDelta = 1.0f/60.0f; //to control the time(not sure if needed)
 int state =0; 
 int menuTime, menuAllowance; // to control time of the menu.
 
+//pshapes for the powerups and objects
+PShape EnemyBody,PlayerBody,healthSprite,gunSprite, laserSprite;
+
 //checking for key presses. 
 void keyPressed()
 {
