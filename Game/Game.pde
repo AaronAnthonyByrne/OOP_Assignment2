@@ -1,7 +1,7 @@
 void setup()
 {
   size(1200, 650);
- // Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd', ' ');
+  // Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd', ' ');
   //item.add(player);
   Enemy e = new Enemy(width/2, height/2, 0, 50);
   item.add(e);
@@ -18,6 +18,7 @@ boolean gameOn, win, wComplete, menu;
 float timeDelta = 1.0f/60.0f; //to control the time(not sure if needed)
 int state =0; 
 int menuTime, menuAllowance; // to control time of the menu.
+int currentWave,totalKills, totalShots, score;
 
 //pshapes for the powerups and objects
 PShape EnemyBody, PlayerBody, healthSprite, gunSprite, laserSprite;
@@ -101,8 +102,34 @@ void drawMenu()
   line(width/2 + 130, height/2 + 210, width/2 + 270, height/2 + 210);
   text("Shoot -->", width/2 + 200, height/2 + 250);
   text("Collect -->", width/2 + 200, height/2 + 300);
+}
+void gameOver()
+{
+  textSize(50);
+  if (win)
+  {
+    text("Congratulations! You Won!", width/2, height/2-100);
+  } else
+  {
+    text("Game Over! You Lost", width/2, height/2-100);
+  }
+  textSize(40);
+  text("Survived until Wave " + currentWave, width/2, height/2 - 50);
+  text("-- Press ENTER to Restart --", width/2, height/2);
+  textSize(30);
+  text("Total  Kills: " + totalKills, width/2, height/2 + 100);
+  text("Shots Fired: " + totalShots, width/2, height/2 + 150);
+  text("Hit Accuracy: " + round(((float)totalKills / (float) totalShots)*100) + "%", width/2, height/2 + 200);
+  textSize(38);
+  text("Final Score: " + score, width/2, height/2 + 300);
+}
 
-
+void drawGame()
+{
+  if(!gameOn)
+  {
+    initialiseGame();
+  }
   //print out all object to the screen.
   for (int i = item.size() -1; i >=0; i --)
   {
@@ -110,16 +137,22 @@ void drawMenu()
     ob.update();
     ob.render();
   }
+}
+void initialiseGame()
+{
+  ArrayList<Gun> gun = new ArrayList<Gun>();
+  ArrayList<Enemy> enimies = new ArrayList<Enemy>();
+}
 
-  int count =0;
-  if (frameCount % 60 == 0)
-  {
-    count ++;
-    if (count == 5)
-    {
-      Gun power = new Gun();
-      power.pos = new PVector(random(0, width), random(0, height));
-      item.add(power);
-    }
-  }
+  /*int count =0;
+   if (frameCount % 60 == 0)
+   {
+   count ++;
+   if (count == 5)
+   {
+   Gun power = new Gun();
+   power.pos = new PVector(random(0, width), random(0, height));
+   item.add(power);
+   }
+   }*/
 }
