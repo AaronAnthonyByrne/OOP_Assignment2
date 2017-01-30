@@ -5,9 +5,17 @@ void setup()
   item.add(player);
 }
 
+//Arraylist
 ArrayList<Object> item = new ArrayList<Object>();
+
+//Boolean variables
 boolean[] keys = new boolean[1000];//to allow multiple key presses
+boolean gameOn, win, wComplete, menu;
+
+//float and int global variables
 float timeDelta = 1.0f/60.0f; //to control the time
+int state =0; 
+int menuTime, menuAllowance; // to control time of the menu.
 
 //checking for key presses. 
 void keyPressed()
@@ -34,6 +42,38 @@ void draw()
   background(0);
   stroke(255);
 
+  // draw menu
+  if (state ==0)
+  {
+    drawMenu();
+  }
+  else if(state == 1)
+  {
+    drawGame();
+  }
+  else if (state == 2)
+  {
+    gameOVer();
+  }
+}
+
+//Print menu to screen
+void drawMenu()
+{
+  fill(255);
+  textAlign(CENTER);
+  rectMode(CENTER);
+  
+  if (millis()- menuTime > menuAllowance)
+  {
+    menu = !menu;
+    menuTime = millis();
+  }
+  if (menu == true)
+  {
+    textSize(35);
+    text("~~~ Press ENTER to Begin ~~", width/2, height/2 + 50);
+  }
   //print out all object to the screen.
   for (int i = item.size() -1; i >=0; i --)
   {

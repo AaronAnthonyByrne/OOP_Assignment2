@@ -115,7 +115,7 @@ class Player extends Object
         Charge p = (Charge) ob; 
         if (dist(ob.pos.x, ob.pos.y, this.pos.x, this.pos.y) < centre + 15)
         {
-          p.applyTo(this);
+         // p.applyTo(this);
           item.remove(ob);
         }
       }
