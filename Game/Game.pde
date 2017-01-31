@@ -5,7 +5,7 @@ void setup()
   xml = loadXML("rounds.xml");
   rounds = xml.getChildren("round");
   gameOn = false;
-  
+
   cursor(CROSS);// turn the cursor from a arrow to a cross
   state = 0;//starting game state
   powerTime = millis(); //returns the number of milliseconds since starting the program. Help in timing the powerUps 
@@ -19,6 +19,9 @@ void setup()
 
 //Arraylist
 ArrayList<Object> item = new ArrayList<Object>();
+
+//Classes
+Text text;
 Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
 //Boolean variables
 boolean[] keys = new boolean[1000];//to allow multiple key presses
@@ -33,7 +36,8 @@ int currentRound, totalKills, totalShots, score, level;
 int amountEnemies, remainingEnemies;// for display the total amout of enimeis and how many left to pass the round.
 int powerTime, powerAllowance;//Time that the powerups will display and the amount of time between each powerup
 int hitTime, hitCoolDown;//
-//final int timeDisplay = 800;
+int startTime;
+final int timeDisplay = 800;
 //pshapes for the powerups and objects
 PShape EnemyBody, PlayerBody, healthSprite, gunSprite, laserSprite;
 
@@ -70,12 +74,10 @@ void draw()
   if (state ==0)
   {
     drawMenu();
-  } 
-  else if (state == 1)
+  } else if (state == 1)
   {
     drawGame();
-  }
-  else if (state == 2)
+  } else if (state == 2)
   {
     gameOver();
   }
@@ -123,6 +125,7 @@ void drawMenu()
   text("Shoot -->", width/2 + 200, height/2 + 250);
   text("Collect -->", width/2 + 200, height/2 + 300);
 }
+
 void gameOver()
 {
   textSize(50);
@@ -144,6 +147,8 @@ void gameOver()
   text("Final Score: " + score, width/2, height/2 + 300);
 }
 
+
+
 void drawGame()
 {
   if (!gameOn)
@@ -155,11 +160,12 @@ void drawGame()
   pushMatrix();
   createPlayer();
   popMatrix();
+  text.drawText();
   for (int i = item.size() -1; i >=0; i --)
   {
     Object ob = item.get(i);
     ob.update();
-   // ob.render();
+    // ob.render();
   }
   //drawText();
   //collisionHanlder();
@@ -175,18 +181,18 @@ void initialiseGame()
 }
 
 void createPlayer()
-  {
-    // Laser between player & mouse
-    strokeWeight(.5);
-    stroke(255, 0, 0);
-    line(mouseX, mouseY, player.pos.x, player.pos.y);
+{
+  // Laser between player & mouse
+  strokeWeight(.5);
+  stroke(255, 0, 0);
+  line(mouseX, mouseY, player.pos.x, player.pos.y);
 
-    fill(0);
-    stroke(#FFFFFF);
-    theta = atan2(player.pos.x - mouseX, player.pos.y - mouseY);
-    translate(player.pos.x, player.pos.y);
-    rotate(-player.theta-PI); 
-    strokeWeight(4);
-    ellipse(0, 0, 50, 50);
-    line(0, 10, 0, 40);
-  }
+  fill(0);
+  stroke(#FFFFFF);
+  theta = atan2(player.pos.x - mouseX, player.pos.y - mouseY);
+  translate(player.pos.x, player.pos.y);
+  rotate(-player.theta-PI); 
+  strokeWeight(4);
+  ellipse(0, 0, 50, 50);
+  line(0, 10, 0, 40);
+}
