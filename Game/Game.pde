@@ -18,7 +18,7 @@ boolean gameOn, win, wComplete, menu;
 float timeDelta = 1.0f/60.0f; //to control the time(not sure if needed)
 int state =0; 
 int menuTime, menuAllowance; // to control time of the menu.
-int currentWave,totalKills, totalShots, score;
+int currentWave, totalKills, totalShots, score;
 
 //pshapes for the powerups and objects
 PShape EnemyBody, PlayerBody, healthSprite, gunSprite, laserSprite;
@@ -126,7 +126,7 @@ void gameOver()
 
 void drawGame()
 {
-  if(!gameOn)
+  if (!gameOn)
   {
     initialiseGame();
   }
@@ -143,6 +143,14 @@ void initialiseGame()
   ArrayList<Gun> gun = new ArrayList<Gun>();
   ArrayList<Enemy> enimies = new ArrayList<Enemy>();
 }
-
-
-}
+/*int count =0;
+ if (frameCount % 60 == 0)
+ {
+ count ++;
+ if (count == 5)
+ {
+ Gun power = new Gun();
+ power.pos = new PVector(random(0, width), random(0, height));
+ item.add(power);
+ }
+ }*/
