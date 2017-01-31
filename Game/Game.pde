@@ -26,6 +26,7 @@ boolean gameOn, win, wComplete, menu;
 
 //float and int global variables
 float timeDelta = 1.0f/60.0f; //to control the time(not sure if needed)
+float theta;
 int state; 
 int menuTime, menuAllowance; // to control time of the menu.
 int currentWave, totalKills, totalShots, score, level;
@@ -150,14 +151,18 @@ void drawGame()
     initialiseGame();
   }
   //update and draw all object(enemies, player and powerups) to the screen.
+  player.update();
+  pushMatrix();
+  createPlayer();
+  popMatrix();
   for (int i = item.size() -1; i >=0; i --)
   {
     Object ob = item.get(i);
     ob.update();
-    ob.render();
+   // ob.render();
   }
-  drawText();
-  collisionHanlder();
+  //drawText();
+  //collisionHanlder();
 }
 void initialiseGame()
 {
@@ -168,14 +173,20 @@ void initialiseGame()
   remainingEnemies = amountEnemies;
   gameOn= true;
 }
-/*int count =0;
- if (frameCount % 60 == 0)
- {
- count ++;
- if (count == 5)
- {
- Gun power = new Gun();
- power.pos = new PVector(random(0, width), random(0, height));
- item.add(power);
- }
- }*/
+
+void createPlayer()
+  {
+    // Laser between player & mouse
+    strokeWeight(.5);
+    stroke(255, 0, 0);
+    line(mouseX, mouseY, player.pos.x, player.pos.y);
+
+    fill(0);
+    stroke(#FFFFFF);
+    theta = atan2(player.pos.x - mouseX, player.pos.y - mouseY);
+    translate(player.pos.x, player.pos.y);
+    rotate(-player.theta-PI); 
+    strokeWeight(4);
+    ellipse(0, 0, 50, 50);
+    line(0, 10, 0, 40);
+  }

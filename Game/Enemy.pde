@@ -17,7 +17,7 @@ class Enemy extends Object
     EnemyBody.setStroke(color(1, 82, 0));
     EnemyBody.setFill(color(0, 255, 0));
   }
-  void render()
+/*  void render()
   {
     /* 
      // Enemy sprite
@@ -51,8 +51,8 @@ class Enemy extends Object
      stroke(0, 0, 255);
      line(width/2 + 352, height/2 + 300, width/2 + 368, height/2 + 300);
      //shape(EnemyBody);
-     */
-  }
+     /
+  }*/
 
   void update()
   {

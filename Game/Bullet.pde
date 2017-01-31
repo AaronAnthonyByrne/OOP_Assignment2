@@ -1,60 +1,42 @@
 class Bullet extends Object
 {
-  float theta;
-  float size;
-  float speed = 200;
-  float expiry;
-  float fired;
+  Player p;
+  PVector mousePos;
+  PVector pos;
+  PVector trajectory;
+  float speed;
+  int size;
+  boolean alive;
+  color bulletFill;
+ 
 
-  Bullet(float x, float y, float theta, float size, float expiry)
+  Bullet(Player p, color bulletFill, PVector pos, PVector mousePos)
   {
-    pos = new PVector(x, y);
-    forward = new PVector(0, 1);
-    this.theta= theta;
-    this.size = size;
-    this.expiry = expiry;
-    this.fired = 0;
-  }
-
-  void render()
-  {
-    pushMatrix();
-    translate(pos.x, pos.y);
-    rotate(theta);
-    stroke(255);
-    line(0, -size/2, 0, size/2);
-    popMatrix();
+    this.p = p;
+    this.pos = pos;
+    this.mousePos = mousePos;
+    alive = true;
+    speed = 10;
+    size =5;
+    this.bulletFill = bulletFill;
+    //subtract the enemies position from players to aquire the trajectory
+    trajectory = PVector.sub(mousePos,pos);
+    //Normalise the vector to length 1 
+    trajectory.normalize();
+    //give it some speed.
+    trajectory.mult(speed);
+    
   }
 
   void update()
   {
-    forward.x = sin(theta);
-    forward.y = - cos(theta);
-
-    pos.add(PVector.mult(PVector.mult(forward, speed), timeDelta));
-
-    if (pos.x>width)
+    if(alive)
     {
-      pos.x=0;
+      pos.add(trajectory);
+      stroke(bulletFill);
+      fill(bulletFill);
+      ellipse(pos.x,pos.y, size,size);
     }
-    if (pos.x <0)
-    {
-      pos.x = width;
-    }
-
-    if (pos.y >height)
-    {
-      pos.y=0;
-    }
-    if (pos.y<0)
-    {
-      pos.y= height;
-    }
-
-    fired += timeDelta;
-    if (fired > expiry)
-    {
-      item.remove(this);
-    }
+    
   }
 }

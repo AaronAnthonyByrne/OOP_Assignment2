@@ -39,30 +39,8 @@ class Player
     stroke = color(#FFFFFF);
     bulletFill = color(255);
 
-
-    create();
   }
 
-  void create()
-  {
-    // Laser between player & mouse
-    strokeWeight(.5);
-    stroke(255, 0, 0);
-    line(mouseX, mouseY, player.pos.x, player.pos.y);
-
-    fill(0);
-    stroke(#FFFFFF);
-    theta = atan2(player.pos.x - mouseX, player.pos.y - mouseY);
-    translate(player.pos.x, player.pos.y);
-    rotate(-player.theta-PI); 
-    strokeWeight(4);
-    ellipse(0, 0, 50, 50);
-    line(0, 10, 0, 40);
-  }
-
-  void render()
-  {
-  }
 
   void update()
   {
@@ -98,7 +76,7 @@ class Player
     }
     
     //if health is gone GAME OVER!
-    if (helath <= 0)
+    if (health <= 0)
     {
       gameOn = false;
       win = false;
@@ -112,7 +90,7 @@ class Player
         PVector mousePos = new PVector(mouseX,mouseY);
         PVector location = new PVector(pos.x, pos.y);
         //sound for firing
-        item.add(new Bullet(player,bulletFill, location, mousePos);
+        item.add(new Bullet(player,bulletFill, location, mousePos));
         totalShots ++;
         if (ammo > 0)
         {

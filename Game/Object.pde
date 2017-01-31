@@ -10,5 +10,5 @@ abstract class Object
   }
   
   abstract void update();
-  abstract void render();
+ // abstract void render();
 }
