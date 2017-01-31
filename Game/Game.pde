@@ -150,13 +150,14 @@ void drawGame()
   {
     initialiseGame();
   }
-  //print out all object to the screen.
+  //update and draw all object(enemies, player and powerups) to the screen.
   for (int i = item.size() -1; i >=0; i --)
   {
     Object ob = item.get(i);
     ob.update();
     ob.render();
   }
+  collisionHanlder();
 }
 void initialiseGame()
 {
