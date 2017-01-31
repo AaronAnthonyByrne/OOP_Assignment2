@@ -4,17 +4,12 @@ class Player extends Object
   PVector PlayerAcc;
   PVector force;
 
-  float speed = 100;
-  float fireRate = 2;
-  float toPass = 1.0 / fireRate;
-  float elapsed = toPass;
+  float speed = 5;
   float theta;
-  float centre;
-  float mass =1;
-  PShape cowboy, head, body;
+  int health, maxHealth, lastBulletTime, bulletCoolDown,ammo;
+ 
   char up, down, left, right, shoot;
-  int health;
-  int power;
+  
 
   Player(float x, float y, float theta, float size, char up, char down, char left, char right, char shoot)
   {
@@ -25,15 +20,18 @@ class Player extends Object
     force = new PVector(0, 0);
     this.theta = theta;
     this.size = size;
-    centre = size / 2;
+    
 
     this.left = left;
     this.right = right;
     this.up = up;
     this.down = down;
     this.shoot = shoot;
-    this.health = 10;
-    this.power = 10;
+    this.health = 5;
+    maxHealth = health;
+    bulletCoolDown = 250;
+    
+    
     create();
   }
 

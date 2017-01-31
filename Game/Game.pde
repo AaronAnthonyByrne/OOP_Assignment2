@@ -157,6 +157,7 @@ void drawGame()
     ob.update();
     ob.render();
   }
+  drawText();
   collisionHanlder();
 }
 void initialiseGame()
@@ -164,6 +165,9 @@ void initialiseGame()
   ArrayList<Gun> gun = new ArrayList<Gun>();
   ArrayList<Enemy> enimies = new ArrayList<Enemy>();
   currentWave = rounds[level].getInt("id");
+  amountEnemies = rounds[level].getInt("enemies");
+  remainingEnemies = amountEnemies;
+  gameOn= true;
 }
 /*int count =0;
  if (frameCount % 60 == 0)
