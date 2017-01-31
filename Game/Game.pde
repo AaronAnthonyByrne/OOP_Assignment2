@@ -21,7 +21,6 @@ void setup()
 ArrayList<Object> item = new ArrayList<Object>();
 
 //Classes
-Text text;
 Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
 //Boolean variables
 boolean[] keys = new boolean[1000];//to allow multiple key presses

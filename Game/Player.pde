@@ -1,19 +1,18 @@
 class Player
 {
-  PVector velocity;
-  PVector PlayerAcc;
-  PVector force;
+  
   PVector pos;
   PVector forward;
   float size;
-  float speed = 5;
+  float speed = 10;
   float theta;
   float power = 100;
+
   int health, maxHealth, lastBulletTime, bulletCoolDown, ammo;
   boolean hitCD;
 
   color fill, stroke, bulletFill;
-  
+
   char up, down, left, right;
 
 
@@ -21,9 +20,6 @@ class Player
   {
     pos = new PVector(x, y);
     forward = new PVector(0, -1);
-    PlayerAcc = new PVector(0, 0);
-    velocity = new PVector(0, 0);
-    force = new PVector(0, 0);
     this.theta = theta;
     this.size = size;
 
@@ -38,7 +34,6 @@ class Player
     fill=color(0);
     stroke = color(#FFFFFF);
     bulletFill = color(255);
-
   }
 
 
@@ -49,32 +44,33 @@ class Player
 
     if (checkKey(up)&& pos.y - speed > 0)
     {
-      force.add(PVector.mult(forward, power));
+      pos.y -= speed;
     }
     if (checkKey(down) && pos.y + speed < height)
     {
-      force.add(PVector.mult(forward, -power));
+      pos.x -= speed;
     }
     if (checkKey(left) && pos.x - speed > 0)
     {
-      theta -= 0.1f;
+     pos.y += speed;
     }
     if (checkKey(right) && pos.x + speed < width)
     {
-      theta += 0.1f;
+      pos.x += speed;
     }
-
+    
+   
     // so player doesn't die instanly
     if (hitCD)
     {
       player.stroke = color(255, 0, 0);
-      if(millis() - hitTime > hitCoolDown)
+      if (millis() - hitTime > hitCoolDown)
       {
         hitCD = false;
         player.stroke= color(255);
       }
     }
-    
+
     //if health is gone GAME OVER!
     if (health <= 0)
     {
@@ -82,15 +78,15 @@ class Player
       win = false;
       state = 2;
     }
-    
-    if(mousePressed)
+
+    if (mousePressed)
     {
-      if(millis() - lastBulletTime > bulletCoolDown)
+      if (millis() - lastBulletTime > bulletCoolDown)
       {
-        PVector mousePos = new PVector(mouseX,mouseY);
+        PVector mousePos = new PVector(mouseX, mouseY);
         PVector location = new PVector(pos.x, pos.y);
         //sound for firing
-        item.add(new Bullet(player,bulletFill, location, mousePos));
+        item.add(new Bullet(player, bulletFill, location, mousePos));
         totalShots ++;
         if (ammo > 0)
         {
