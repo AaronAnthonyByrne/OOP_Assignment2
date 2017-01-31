@@ -144,15 +144,5 @@ void initialiseGame()
   ArrayList<Enemy> enimies = new ArrayList<Enemy>();
 }
 
-  /*int count =0;
-   if (frameCount % 60 == 0)
-   {
-   count ++;
-   if (count == 5)
-   {
-   Gun power = new Gun();
-   power.pos = new PVector(random(0, width), random(0, height));
-   item.add(power);
-   }
-   }*/
+
 }
