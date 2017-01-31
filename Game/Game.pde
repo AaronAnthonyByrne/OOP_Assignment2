@@ -10,7 +10,7 @@ void setup()
   state = 0;//starting game state
   powerTime = millis(); //returns the number of milliseconds since starting the program. Help in timing the powerUps 
   powerAllowance = (int)random(10000, 15000); //cast to and interger value to get whole numbers
-  menuAllowance = 1000;
+  menuAllowance = 500;
   hitCoolDown = 800;
 }
 /*--------------------------------*
@@ -22,14 +22,14 @@ ArrayList<Object> item = new ArrayList<Object>();
 Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
 //Boolean variables
 boolean[] keys = new boolean[1000];//to allow multiple key presses
-boolean gameOn, win, wComplete, menu;
+boolean gameOn, win, rComplete, menu;
 
 //float and int global variables
 float timeDelta = 1.0f/60.0f; //to control the time(not sure if needed)
 float theta;
 int state; 
 int menuTime, menuAllowance; // to control time of the menu.
-int currentWave, totalKills, totalShots, score, level;
+int currentRound, totalKills, totalShots, score, level;
 int amountEnemies, remainingEnemies;// for display the total amout of enimeis and how many left to pass the round.
 int powerTime, powerAllowance;//Time that the powerups will display and the amount of time between each powerup
 int hitTime, hitCoolDown;//
@@ -134,7 +134,7 @@ void gameOver()
     text("Game Over! You Lost", width/2, height/2-100);
   }
   textSize(40);
-  text("Survived until Wave " + currentWave, width/2, height/2 - 50);
+  text("Survived until Wave " + currentRound, width/2, height/2 - 50);
   text("-- Press ENTER to Restart --", width/2, height/2);
   textSize(30);
   text("Total  Kills: " + totalKills, width/2, height/2 + 100);
@@ -168,7 +168,7 @@ void initialiseGame()
 {
   ArrayList<Gun> gun = new ArrayList<Gun>();
   ArrayList<Enemy> enimies = new ArrayList<Enemy>();
-  currentWave = rounds[level].getInt("id");
+  currentRound = rounds[level].getInt("id");
   amountEnemies = rounds[level].getInt("enemies");
   remainingEnemies = amountEnemies;
   gameOn= true;
