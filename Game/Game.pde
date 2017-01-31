@@ -22,7 +22,7 @@ ArrayList<Object> item = new ArrayList<Object>();
 
 //Classes
 Text text;
-Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
+Player player;
 //Boolean variables
 boolean[] keys = new boolean[1000];//to allow multiple key presses
 boolean gameOn, win, rComplete, menu;
@@ -49,6 +49,7 @@ XML[] rounds;
 void keyPressed()
 {
   keys[keyCode] = true;
+  
 }
 
 void keyReleased()
@@ -124,6 +125,16 @@ void drawMenu()
   line(width/2 + 130, height/2 + 210, width/2 + 270, height/2 + 210);
   text("Shoot -->", width/2 + 200, height/2 + 250);
   text("Collect -->", width/2 + 200, height/2 + 300);
+  
+   if(state == 0 && (key == RETURN || key == ENTER))
+  {
+    state =1;
+    Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
+    totalKills =0;
+    level =0;
+    score =0;
+    totalShots =0;
+  }
 }
 
 void gameOver()
@@ -161,13 +172,13 @@ void drawGame()
   createPlayer();
   popMatrix();
   text.drawText();
-  for (int i = item.size() -1; i >=0; i --)
-  {
-    Object ob = item.get(i);
-    ob.update();
+  //for (int i = item.size() -1; i >=0; i --)
+  //{
+    //Object ob = item.get(i);
+    //ob.update();
     // ob.render();
-  }
-  //drawText();
+  //}
+  
   //collisionHanlder();
 }
 void initialiseGame()
