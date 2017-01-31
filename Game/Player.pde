@@ -6,12 +6,13 @@ class Player extends Object
 
   float speed = 5;
   float theta;
+  float power = 100;
   int health, maxHealth, lastBulletTime, bulletCoolDown,ammo;
  
-  char up, down, left, right, shoot;
+  char up, down, left, right;
   
 
-  Player(float x, float y, float theta, float size, char up, char down, char left, char right, char shoot)
+  Player(float x, float y, float theta, float size, char up, char down, char left, char right)
   {
     pos = new PVector(x, y);
     forward = new PVector(0, -1);
@@ -26,7 +27,6 @@ class Player extends Object
     this.right = right;
     this.up = up;
     this.down = down;
-    this.shoot = shoot;
     this.health = 5;
     maxHealth = health;
     bulletCoolDown = 250;
@@ -63,19 +63,19 @@ class Player extends Object
     forward.x= sin(theta);
     forward.y = -cos(theta);
 
-    if (checkKey(up))
+    if (checkKey(up)&& pos.y - speed > 0)
     {
       force.add(PVector.mult(forward, power));
     }
-    if (checkKey(down))
+    if (checkKey(down) && pos.y + speed < height)
     {
       force.add(PVector.mult(forward, -power));
     }
-    if (checkKey(left))
+    if (checkKey(left) && pos.x - speed > 0)
     {
       theta -= 0.1f;
     }
-    if (checkKey(right))
+    if (checkKey(right) && pos.x + speed < width)
     {
       theta += 0.1f;
     }
@@ -83,8 +83,8 @@ class Player extends Object
     if (checkKey(shoot) && elapsed > toPass && power > 0)
     {
       PVector bp = PVector.add(pos, PVector.mult(forward, 40));
-      // Bullet b = new Bullet(bp.x, bp.y, theta, 20, 5);
-      //gameObjects.add(b);
+      Bullet b = new Bullet(bp.x, bp.y, theta, 20, 5);
+      Object.add(b);
       elapsed = 0;
       power --;
     }

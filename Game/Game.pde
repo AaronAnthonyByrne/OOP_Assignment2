@@ -5,7 +5,7 @@ void setup()
   xml = loadXML("rounds.xml");
   rounds = xml.getChildren("round");
   gameOn = false;
-  Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd', ' ');
+  Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
   item.add(player);
   cursor(CROSS);// turn the cursor from a arrow to a cross
   state = 0;//starting game state
