@@ -1,11 +1,22 @@
 void setup()
 {
+  //load font here
   size(1200, 650);
-  // Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd', ' ');
-  //item.add(player);
-  Enemy e = new Enemy(width/2, height/2, 0, 50);
-  item.add(e);
+  xml = loadXML("rounds.xml");
+  rounds = xml.getChildren("round");
+  gameOn = false;
+  Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd', ' ');
+  item.add(player);
+  cursor(CROSS);// turn the cursor from a arrow to a cross
+  state = 0;//starting game state
+  powerTime = millis(); //returns the number of milliseconds since starting the program. Help in timing the powerUps 
+  powerAllowance = (int)random(10000, 15000); //cast to and interger value to get whole numbers
+  menuAllowance = 1000;
+  hitCoolDown = 800;
 }
+/*--------------------------------*
+ * Global Variables 
+/*--------------------------------*/
 
 //Arraylist
 ArrayList<Object> item = new ArrayList<Object>();
@@ -16,12 +27,19 @@ boolean gameOn, win, wComplete, menu;
 
 //float and int global variables
 float timeDelta = 1.0f/60.0f; //to control the time(not sure if needed)
-int state =0; 
+int state; 
 int menuTime, menuAllowance; // to control time of the menu.
-int currentWave, totalKills, totalShots, score;
-
+int currentWave, totalKills, totalShots, score, level;
+int amountEnemies, remainingEnemies;// for display the total amout of enimeis and how many left to pass the round.
+int powerTime, powerAllowance;//Time that the powerups will display and the amount of time between each powerup
+int hitTime, hitCoolDown;//
+//final int timeDisplay = 800;
 //pshapes for the powerups and objects
 PShape EnemyBody, PlayerBody, healthSprite, gunSprite, laserSprite;
+
+//adding in my XML file.
+XML xml;
+XML[] rounds;
 
 //checking for key presses. 
 void keyPressed()
@@ -48,19 +66,21 @@ void draw()
   background(0);
   stroke(255);
 
-  // draw menu
+  //might change to a swicth stament.
   if (state ==0)
   {
     drawMenu();
-  } else if (state == 1)
+  } 
+  else if (state == 1)
   {
-    /* drawGame();
-     } else if (state == 2)
-     {
-     gameOver();
-     }*/
+    drawGame();
+  }
+  else if (state == 2)
+  {
+    gameOver();
   }
 }
+
 //Print menu to screen
 void drawMenu()
 {
@@ -142,6 +162,7 @@ void initialiseGame()
 {
   ArrayList<Gun> gun = new ArrayList<Gun>();
   ArrayList<Enemy> enimies = new ArrayList<Enemy>();
+  currentWave = rounds[level].getInt("id");
 }
 /*int count =0;
  if (frameCount % 60 == 0)
