@@ -86,49 +86,45 @@ class Player
       theta += 0.1f;
     }
 
+    // so player doesn't die instanly
     if (hitCD)
     {
       player.stroke = color(255, 0, 0);
       if(millis() - hitTime > hitCoolDown)
       {
-        
-      /*if (checkKey(shoot) && elapsed > toPass && power > 0)
-       {
-       PVector bp = PVector.add(pos, PVector.mult(forward, 40));
-       Bullet b = new Bullet(bp.x, bp.y, theta, 20, 5);
-       Object.add(b);
-       elapsed = 0;
-       power --;
-       }
-       
-       PlayerAcc = PVector.div(force, mass);
-       velocity.add(PVector.mult(PlayerAcc, timeDelta));
-       pos.add(PVector.mult(velocity, timeDelta));
-       force.x = force.y = 0;
-       velocity.mult(0.9f);
-       elapsed += timeDelta;
-       
-       for (int i = 0; i < item.size(); i ++)
-       {
-       Object ob = item.get(i);
-       if (ob instanceof Bullet)
-       {
-       Bullet b = (Bullet) ob;
-       if (dist(ob.pos.x, ob.pos.y, this.pos.x, this.pos.y) < centre)
-       {
-       health --;
-       item.remove(b);
-       }
-       }
-       if (ob instanceof Charge)
-       {
-       Charge p = (Charge) ob; 
-       if (dist(ob.pos.x, ob.pos.y, this.pos.x, this.pos.y) < centre + 15)
-       {
-       // p.applyTo(this);
-       item.remove(ob);
-       }
-       }
-       }
-       }*/
+        hitCD = false;
+        player.stroke= color(255);
+      }
     }
+    
+    //if health is gone GAME OVER!
+    if (helath <= 0)
+    {
+      gameOn = false;
+      win = false;
+      state = 2;
+    }
+    
+    if(mousePressed)
+    {
+      if(millis() - lastBulletTime > bulletCoolDown)
+      {
+        PVector mousePos = new PVector(mouseX,mouseY);
+        PVector location = new PVector(pos.x, pos.y);
+        //sound for firing
+        item.add(new Bullet(player,bulletFill, location, mousePos);
+        totalShots ++;
+        if (ammo > 0)
+        {
+          ammo --;
+          if (ammo == 0)
+          {
+            bulletCoolDown = 200;
+            bulletFill = color(255);
+          }
+        }
+        lastBulletTime=millis();
+      }
+    }
+  }
+}    
