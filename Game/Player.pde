@@ -2,9 +2,8 @@ class Player
 {
   
   PVector pos;
-  PVector forward;
   float size;
-  float speed = 10;
+  float speed = 5;
   float theta;
   float power = 100;
 
@@ -19,7 +18,6 @@ class Player
   Player(float x, float y, float theta, float size, char up, char down, char left, char right)
   {
     pos = new PVector(x, y);
-    forward = new PVector(0, -1);
     this.theta = theta;
     this.size = size;
 
@@ -39,8 +37,7 @@ class Player
 
   void update()
   {
-    forward.x= sin(theta);
-    forward.y = -cos(theta);
+ 
 
     if (checkKey(up)&& pos.y - speed > 0)
     {
@@ -48,11 +45,13 @@ class Player
     }
     if (checkKey(down) && pos.y + speed < height)
     {
-      pos.x -= speed;
-    }
+      pos.y += speed;
+         }
     if (checkKey(left) && pos.x - speed > 0)
     {
-     pos.y += speed;
+     
+      pos.x -= speed;
+
     }
     if (checkKey(right) && pos.x + speed < width)
     {
