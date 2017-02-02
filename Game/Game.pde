@@ -18,7 +18,7 @@ void setup()
 /*--------------------------------*/
 
 //Arraylist
-ArrayList<Object> item = new ArrayList<Object>();
+ ArrayList<Object> gameObject= new ArrayList<Object>();
 
 //Classes
 Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
@@ -142,7 +142,7 @@ void drawMenu()
 }
 
 /*--------------------------------*
- * Game Over Screen
+ * 
 /*--------------------------------*/
 
 void gameOver()
@@ -197,6 +197,7 @@ void drawGame()
 /*--------------------------------*/
 void initialiseGame()
 {
+  Enemy enemies = new Enemy;
   // ArrayList<Gun> gun = new ArrayList<Gun>();
   //  ArrayList<Enemy> enimies = new ArrayList<Enemy>();
   currentRound = rounds[level].getInt("id");

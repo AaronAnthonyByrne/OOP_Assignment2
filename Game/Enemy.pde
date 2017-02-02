@@ -1,14 +1,20 @@
 class Enemy extends Object
 {
-  PShape EnemyBody;
-  float theta, size;
+  PVector pos, direction;
+  Player p1;
+  int speed, size;
+  boolean active;
+  color zColour;
 
-  Enemy(float x, float y, float theta, float size)
+  Enemy(PVector pos, Player p)
   {
-    pos = new PVector(x, y);
-    forward = new PVector(0, -1);
-    this.theta = theta;
-    this.size = size;
+    this.pos = pos;
+    this. p1 = p;
+    size = 50;
+    speed= (int) random(2, 5);
+    active = true;
+    direction = new PVector(0, 0);
+    zColour = color(0, 0, 255);
   }
 
   void render()
@@ -76,7 +82,7 @@ class Enemy extends Object
     }
     for (int i =0; i< enemies.size(); i++)
     {
-      Enemy e = enemies.get(i);
+      Enemy e = Object.get(i);
       e.update();
     }
     if ( remainingEnemies == 0 && level < rounds.length -1)
@@ -92,6 +98,29 @@ class Enemy extends Object
       gameOn = false;
       win = true;
       state = 2;
+    }
+
+    if (active)
+    {
+      fill(zColour);
+
+      if (dist(p1.pos.x, p1.pos.y, pos.x, pos.y)> 50)
+      {
+        direction.x = p1.pos.x-pos.x;
+        direction.y = p1.pos.y-pos.y;
+        direction.normalize();
+        pos.x += direction.x * speed;
+        pos.y += direction.y * speed;
+      } else
+      {
+        if (p1.hitCD == false)
+        {
+          p1.health --;
+         hitTime = millis();
+          p1.hitCD = true;
+        }
+      }
+      ellipse(pos.x, pos.y, size, size);
     }
   }
 }
