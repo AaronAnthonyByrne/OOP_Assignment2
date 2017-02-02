@@ -64,6 +64,9 @@ boolean checkKey(int k)
   return false;
 }
 
+/*--------------------------------*
+ * draw Function
+/*--------------------------------*/
 void draw()
 {
   background(0);
@@ -82,13 +85,16 @@ void draw()
   }
 }
 
-//Print menu to screen
+/*--------------------------------*
+ * Printing the menu
+/*--------------------------------*/
 void drawMenu()
 {
   fill(255);
   textAlign(CENTER);
   rectMode(CENTER);
 
+//print the flashing text
   if (millis()- menuTime > menuAllowance)
   {
     menu = !menu;
@@ -135,6 +141,10 @@ void drawMenu()
   }
 }
 
+/*--------------------------------*
+ * Game Over Screen
+/*--------------------------------*/
+
 void gameOver()
 {
   textSize(50);
@@ -157,7 +167,9 @@ void gameOver()
 }
 
 
-
+/*--------------------------------*
+ * Draw the game
+/*--------------------------------*/
 void drawGame()
 {
   if (!gameOn)
@@ -179,6 +191,10 @@ void drawGame()
 
   //collisionHanlder();
 }
+
+/*--------------------------------*
+ * Start the game
+/*--------------------------------*/
 void initialiseGame()
 {
   // ArrayList<Gun> gun = new ArrayList<Gun>();
@@ -189,6 +205,9 @@ void initialiseGame()
   gameOn= true;
 }
 
+/*--------------------------------*
+ * Player Creation
+/*--------------------------------*/
 void createPlayer()
 {
   // Laser between player & mouse
@@ -198,7 +217,7 @@ void createPlayer()
 
   fill(0);
   stroke(#FFFFFF);
-  theta = atan2(player.pos.x - mouseX, player.pos.y - mouseY);
+  theta = atan2(player.pos.y - mouseY, player.pos.x - mouseX);
   translate(player.pos.x, player.pos.y);
   rotate(-player.theta-PI); 
   strokeWeight(4);
@@ -206,6 +225,9 @@ void createPlayer()
   line(0, 10, 0, 40);
 }
 
+/*--------------------------------*
+ * Text that needs to be displayed every frame
+/*--------------------------------*/
 void drawText()
 {
   textSize(35);
@@ -213,33 +235,33 @@ void drawText()
   textAlign(CENTER);
 
   //Text for the top of the screen displaying currentRound bullet coold down and ammo.
-  text("Round", width/2, height -50);
-  text(currentRound, width/2, height -90);
+  text("Round", width*.75, 40);
+  text(currentRound, width*.75, 70);
 
   if (player.bulletCoolDown !=250)
   {
     fill(255, 0, 0);
     textSize(45);
-    text(player.ammo, width-110, height -80);
+    text(player.ammo, width/2, height -50);
   }
 
   //Text at the bottom of the screen
-  text("Health", width*.25, 30);
+  text("Health", width/2, height -90);
   stroke(255, 0, 0);
   fill(255, 0, 0, 90);
 
   //drawing of the health boxes
   for (int i = 0; i <player.health; i ++)
-  {
-    rect(width*.20+(50*i), 50, 30, 30);
+  {//width-110, height -80
+    rect(width*.42+(50*i),height- 60, 30, 30);
   }
 
   //score
   fill(255);
-  text("Score", width/2, 25);
-  text(score, width/2, 65);
-  text("Enemies Left :", width*.25, 25);
-  text(remainingEnemies, width*.25, 65);
+  text("Score", width/2, 40);
+  text(score, width/2, 70);
+  text("Enemies Left :", width*.25, 40);
+  text(remainingEnemies, width*.25, 70);
 
   //when the game is completed
   if (rComplete)
