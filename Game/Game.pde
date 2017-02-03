@@ -204,7 +204,7 @@ void drawGame()
   updateGuns();
   enemyUpdate();
   drawText();
-  collisionHanlder();
+  collisionHandler();
 }
 
 /*--------------------------------*
@@ -369,7 +369,7 @@ void updateGuns()
 {
   if (millis()- powerTime > powerAllowance)
   {
-    gun.add(new Gun(new PVector (random(0, width), random(0, height), player));
+    gun.add(new Gun(new PVector (random(0, width), random(0, height)), player));
     powerCD = (int) random(9999, 10250);//randomise the time between power ups
     powerTime = millis();
   }
