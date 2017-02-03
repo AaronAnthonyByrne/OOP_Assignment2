@@ -17,29 +17,7 @@ class Enemy extends Object
     zColour = color(0, 0, 255);
   }
 
-  void render()
-  {
-    int spawnPos = (int) random(0, 4);
-
-    if (spawnPos ==0)
-    {
-      enemies.add(new Enemy(new PVector(random (-200, 0), random(-200, height + 200), player);
-    }
-    if (spawnPos ==1)
-    {
-      enemies.add(new Enemy(new PVector(random (width, width+200), random(-200, height + 200), player);
-    }
-    if (spawnPos ==2)
-    {
-      enemies.add(new Enemy(new PVector(random (width -200, width+200), random(height, 200), player);
-    } else
-    {
-      enemies.add(new Enemy(new PVector(random (width -200, width+200), random(-200, 0), player);
-    }
-    amountEnemies --;
-  }
-  /* 
-   // Enemy sprite
+  /*  // Enemy sprite
    stroke(1, 82, 0); 
    fill(0, 255, 0);
    ellipse(width/2 + 280, height/2 + 245, 30, 30);
@@ -75,31 +53,6 @@ class Enemy extends Object
 
   void update()
   {
-    int timer = millis();
-    if (timer % 30 == 0 && amountEnemies>0)
-    {
-      render();
-    }
-    for (int i =0; i< enemies.size(); i++)
-    {
-      Enemy e = Object.get(i);
-      e.update();
-    }
-    if ( remainingEnemies == 0 && level < rounds.length -1)
-    {
-      level ++;
-      startTime = millis();
-      gameOn = false;
-      rComplete = true;
-    }
-    //All levels beaten
-    else if (remainingEnemies == 0 && level == rounds.length-1)
-    {
-      gameOn = false;
-      win = true;
-      state = 2;
-    }
-
     if (active)
     {
       fill(zColour);
@@ -116,7 +69,7 @@ class Enemy extends Object
         if (p1.hitCD == false)
         {
           p1.health --;
-         hitTime = millis();
+          hitTime = millis();
           p1.hitCD = true;
         }
       }

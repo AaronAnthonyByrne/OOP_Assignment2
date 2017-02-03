@@ -18,10 +18,11 @@ void setup()
 /*--------------------------------*/
 
 //Arraylist
- ArrayList<Object> enemies = new ArrayList<Object>();
+ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
 //Classes
 Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
+Enemy enemy;
 //Boolean variables
 boolean[] keys = new boolean[1000];//to allow multiple key presses
 boolean gameOn, win, rComplete, menu;
@@ -94,7 +95,7 @@ void drawMenu()
   textAlign(CENTER);
   rectMode(CENTER);
 
-//print the flashing text
+  //print the flashing text
   if (millis()- menuTime > menuAllowance)
   {
     menu = !menu;
@@ -181,6 +182,8 @@ void drawGame()
   pushMatrix();
   createPlayer();
   popMatrix();
+  enemy.update();
+  //object.update()
   drawText();
   //for (int i = item.size() -1; i >=0; i --)
   //{
@@ -198,7 +201,7 @@ void drawGame()
 void initialiseGame()
 {
   // ArrayList<Gun> gun = new ArrayList<Gun>();
-  //  ArrayList<Enemy> enimies = new ArrayList<Enemy>();
+
   currentRound = rounds[level].getInt("id");
   amountEnemies = rounds[level].getInt("enemies");
   remainingEnemies = amountEnemies;
@@ -253,7 +256,7 @@ void drawText()
   //drawing of the health boxes
   for (int i = 0; i <player.health; i ++)
   {//width-110, height -80
-    rect(width*.42+(50*i),height- 60, 30, 30);
+    rect(width*.42+(50*i), height- 60, 30, 30);
   }
 
   //score
@@ -274,4 +277,52 @@ void drawText()
       rComplete = false;
     }
   }
+}
+void enemyUpdate()
+{
+  int timer = millis();
+  if (timer % 30 == 0 && amountEnemies>0)
+  {
+    enemyRender();
+  }
+  for (int i =0; i< enemies.size(); i++)
+  {
+    Enemy e = Object.get(i);
+    e.update();
+  }
+  if ( remainingEnemies == 0 && level < rounds.length -1)
+  {
+    level ++;
+    startTime = millis();
+    gameOn = false;
+    rComplete = true;
+  }
+  //All levels beaten
+  else if (remainingEnemies == 0 && level == rounds.length-1)
+  {
+    gameOn = false;
+    win = true;
+    state = 2;
+  }
+}
+//Renders emiems in random locations off screen. 
+void enemyRender()
+{
+  int spawnPos = (int) random(0, 4);
+  if (spawnPos == 0)
+  {
+    enemies.add(new Enemy(new PVector(random (-200, 0), random(-200, height + 200)), player));
+  }
+  if (spawnPos ==1)
+  {
+    enemies.add(new Enemy(new PVector(random (width, width+200), random(-200, height + 200)), player));
+  }
+  if (spawnPos ==2)
+  {
+    enemies.add(new Enemy(new PVector(random (width -200, width+200), random(height, 200)), player));
+  } else
+  {
+    enemies.add(new Enemy(new PVector(random (width -200, width+200), random(-200, 0)), player));
+  }
+  amountEnemies --;
 }
