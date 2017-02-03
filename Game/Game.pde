@@ -247,7 +247,9 @@ void drawGame()
 void initialiseGame()
 {
 
-
+  ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+  ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+  ArrayList<PowerUp> powerUp = new ArrayList<PowerUp>();
   currentRound = rounds[level].getInt("id");
   amountEnemies = rounds[level].getInt("enemies");
   remainingEnemies = amountEnemies;
