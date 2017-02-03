@@ -1,9 +1,14 @@
+
+/*--------------------------------*
+ *Setup
+/*--------------------------------*/
 void setup()
 {
-  //load font here
+  
   size(1200, 650);
   xml = loadXML("rounds.xml");
   rounds = xml.getChildren("round");
+  mainTitleFont = loadFont("Chiller-Regular-100.vlw");
   gameOn = false;
 
   cursor(CROSS);// turn the cursor from a arrow to a cross
@@ -16,6 +21,8 @@ void setup()
 /*--------------------------------*
  * Global Variables 
 /*--------------------------------*/
+//Fonts being used in game
+PFont mainTitleFont;
 
 //Arraylist
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -46,11 +53,14 @@ PShape EnemyBody, PlayerBody, healthSprite, gunSprite, laserSprite;
 XML xml;
 XML[] rounds;
 
-//checking for key presses. 
+
+/*--------------------------------*
+ * Checking for the keys that have been pressed.
+/*--------------------------------*/
 void keyPressed()
 {
   keys[keyCode] = true;
-    if (state == 0 && (checkKey(RETURN) ||checkKey( ENTER)))
+  if (state == 0 && (checkKey(RETURN) ||checkKey( ENTER)))
   {
     state =1;
 
@@ -59,7 +69,7 @@ void keyPressed()
     score =0;
     totalShots =0;
   } 
- if (state == 2 && (checkKey(RETURN) ||checkKey( ENTER)))
+  if (state == 2 && (checkKey(RETURN) ||checkKey( ENTER)))
   {
     state =0;
   }
@@ -85,16 +95,17 @@ boolean checkKey(int k)
 void draw()
 {
   background(0);
-  stroke(255);
 
   //might change to a swicth stament.
   if (state ==0)
   {
     drawMenu();
-  } else if (state == 1)
+  } 
+  else if (state == 1)
   {
     drawGame();
-  } else if (state == 2)
+  } 
+  else if (state == 2)
   {
     gameOver();
   }
@@ -117,35 +128,33 @@ void drawMenu()
   }
   if (menu == true)
   {
-    textSize(35);
+    textSize(45);
     text("~~ Press ENTER to Begin ~~", width/2, height/2 + 50);
   }
-
-  /*
-  ///
-   ////
-   TEXT FONT HERE!!
-   */
+  
+  //main title text
+  textFont(mainTitleFont);
   textSize(100);
   fill(255);
   text("Zombie Attack", width/2, height/2-110);
-  textSize(35);
+  textSize(40);
   text("by Aaron Byrne, C15709609", width/2, height/2-60);
+  
+  //print the control instructions
   text("Controls: ", width/2 - 200, height/2 + 200);
   stroke(255);
   strokeWeight(3);
   line(width/2 - 270, height/2 + 210, width/2 - 130, height/2 + 210);
-  textSize(20);
   text("W A S D / Arrow Keys: Move", width/2 - 200, height/2 + 250);
   text("Mouse: Aim and Shoot", width/2 - 200, height/2 + 300);
+  
+  //How to play instructions
   text("How to Play: ", width/2 + 200, height/2 + 200);
   stroke(255);
   strokeWeight(3);
   line(width/2 + 130, height/2 + 210, width/2 + 270, height/2 + 210);
   text("Shoot -->", width/2 + 200, height/2 + 250);
   text("Collect -->", width/2 + 200, height/2 + 300);
-
-
 }
 
 /*--------------------------------*
@@ -207,7 +216,7 @@ void drawGame()
 void initialiseGame()
 {
   // ArrayList<Gun> gun = new ArrayList<Gun>();
-
+ 
   currentRound = rounds[level].getInt("id");
   amountEnemies = rounds[level].getInt("enemies");
   remainingEnemies = amountEnemies;
@@ -284,6 +293,9 @@ void drawText()
     }
   }
 }
+/*--------------------------------*
+ * Update the eneies position
+/*--------------------------------*/
 void enemyUpdate()
 {
   int timer = millis();
@@ -311,7 +323,10 @@ void enemyUpdate()
     state = 2;
   }
 }
-//Renders emiems in random locations off screen. 
+/*--------------------------------*
+ * Draws enemies to screen each round.
+/*--------------------------------*/
+
 void enemyRender()
 {
   int spawnPos = (int) random(0, 4);
