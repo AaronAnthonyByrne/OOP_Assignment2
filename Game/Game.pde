@@ -50,6 +50,19 @@ XML[] rounds;
 void keyPressed()
 {
   keys[keyCode] = true;
+    if (state == 0 && (checkKey(RETURN) ||checkKey( ENTER)))
+  {
+    state =1;
+
+    totalKills =0;
+    level =0;
+    score =0;
+    totalShots =0;
+  } 
+ if (state == 2 && (checkKey(RETURN) ||checkKey( ENTER)))
+  {
+    state =0;
+  }
 }
 
 void keyReleased()
@@ -132,15 +145,7 @@ void drawMenu()
   text("Shoot -->", width/2 + 200, height/2 + 250);
   text("Collect -->", width/2 + 200, height/2 + 300);
 
-  if (state == 0 && (checkKey(RETURN) ||checkKey( ENTER)))
-  {
-    state =1;
 
-    totalKills =0;
-    level =0;
-    score =0;
-    totalShots =0;
-  }
 }
 
 /*--------------------------------*
