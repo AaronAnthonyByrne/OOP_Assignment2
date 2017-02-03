@@ -1,14 +1,14 @@
-abstract class Object
+abstract class gObject
 {
   PVector pos;
   PVector forward;
   float size;
   
-  Object()
+  gObject()
   {
     
   }
   
   abstract void update();
- // abstract void render();
+
 }

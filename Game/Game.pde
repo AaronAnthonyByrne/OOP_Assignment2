@@ -19,6 +19,7 @@ void setup()
 
 //Arraylist
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+ArrayList<Bullet> item = new ArrayList<Bullet>();
 
 //Classes
 Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
@@ -143,7 +144,7 @@ void drawMenu()
 }
 
 /*--------------------------------*
- * 
+ * Game Over Screen
 /*--------------------------------*/
 
 void gameOver()
@@ -182,7 +183,7 @@ void drawGame()
   pushMatrix();
   createPlayer();
   popMatrix();
-  enemy.update();
+  enemyUpdate();
   //object.update()
   drawText();
   //for (int i = item.size() -1; i >=0; i --)
@@ -287,7 +288,7 @@ void enemyUpdate()
   }
   for (int i =0; i< enemies.size(); i++)
   {
-    Enemy e = Object.get(i);
+    Enemy e = enemies.get(i);
     e.update();
   }
   if ( remainingEnemies == 0 && level < rounds.length -1)
