@@ -2,10 +2,8 @@ class Bullet extends gObject
 {
   Player p;
   PVector mousePos;
-  PVector pos;
   PVector trajectory;
   float speed;
-  int size;
   boolean alive;
   color bulletFill;
 

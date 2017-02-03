@@ -1,8 +1,8 @@
 class Enemy extends gObject
 {
-  PVector pos, direction;
+  PVector direction;
   Player p1;
-  int speed, size;
+  int speed;
   boolean active;
   color zColour;
 
@@ -16,40 +16,6 @@ class Enemy extends gObject
     direction = new PVector(0, 0);
     zColour = color(0, 0, 255);
   }
-
-  /*  // Enemy sprite
-   stroke(1, 82, 0); 
-   fill(0, 255, 0);
-   ellipse(width/2 + 280, height/2 + 245, 30, 30);
-   
-   // Health sprite
-   stroke(255, 0, 0);
-   fill(255, 0, 0, 90);
-   ellipse(width/2 + 280, height/2 + 300, 30, 30);
-   stroke(255);
-   fill(255);
-   line(width/2 + 270, height/2 + 300, width/2 + 290, height/2 + 300);
-   line(width/2 + 280, height/2 + 290, width/2 + 280, height/2 + 310);
-   
-   // MachineGun sprite
-   stroke(255);
-   fill(255, 90);
-   ellipse(width/2 + 320, height/2 + 300, 30, 30);
-   stroke(255);
-   fill(255);
-   ellipse(width/2 + 312, height/2 + 300, 4, 4);
-   ellipse(width/2 + 320, height/2 + 300, 4, 4);
-   ellipse(width/2 + 328, height/2 + 300, 4, 4);
-   
-   // Laser Sprite
-   stroke(255);
-   fill(255, 90);
-   ellipse(width/2 + 360, height/2 + 300, 30, 30);
-   stroke(0, 0, 255);
-   line(width/2 + 352, height/2 + 300, width/2 + 368, height/2 + 300);
-   //shape(EnemyBody);
-  /*/
-
 
   void update()
   {

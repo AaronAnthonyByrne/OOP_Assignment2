@@ -1,11 +1,10 @@
-class Gun extends gObject implements Charge
+class PowerUp extends gObject implements Charge
 {
   Player p;
-  int size;
   boolean active;
   int num;
 
-  Gun(PVector pos, Player p)
+  PowerUp(PVector pos, Player p)
   {
     this.pos =pos;
     this.p=p;

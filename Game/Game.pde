@@ -27,13 +27,13 @@ PFont mainTitleFont;
 //Array Lists
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-ArrayList<Gun> gun = new ArrayList<Gun>();
+ArrayList<PowerUp> powerUp = new ArrayList<PowerUp>();
 
 //Classes
 Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
 Enemy enemy;
 Bullet bullet;
-Gun guns;
+PowerUp powerUps;
 
 //Boolean variables
 boolean[] keys = new boolean[1000];//to allow multiple key presses
@@ -51,7 +51,7 @@ int hitTime, hitCoolDown;//
 int startTime;
 final int timeDisplay = 800;
 //pshapes for the powerups and objects
-PShape EnemyBody, PlayerBody, healthSprite, gunSprite, laserSprite;
+PShape healthSprite, powerUpSprite, laserSprite;
 
 //adding in my XML file.
 XML xml;
@@ -158,6 +158,40 @@ void drawMenu()
   line(width/2 + 130, height/2 + 210, width/2 + 270, height/2 + 210);
   text("Shoot -->", width/2 + 200, height/2 + 250);
   text("Collect -->", width/2 + 200, height/2 + 300);
+
+  /*--------------------------------*
+   * Sprites healthSprite, powerUpSprite, laserSprite
+  /*--------------------------------*/
+  // Enemy sprite
+  stroke(0, 0, 255); 
+  fill(0, 0, 255);
+  ellipse(width/2 + 280, height/2 + 245, 30, 30);
+
+  // Health sprite
+  stroke(255, 0, 0);
+  fill(255, 0, 0, 90);
+  ellipse(width/2 + 280, height/2 + 290, 30, 30);
+  stroke(255);
+  fill(255);
+  line(width/2 + 270, height/2 + 290, width/2 + 290, height/2 + 290);
+  line(width/2 + 280, height/2 + 280, width/2 + 280, height/2 + 300);
+
+  // MachinepowerUp sprite
+  stroke(255);
+  fill(255, 90);
+  ellipse(width/2 + 320, height/2 + 290, 30, 30);
+  stroke(255);
+  fill(255);
+  ellipse(width/2 + 312, height/2 + 290, 4, 4);
+  ellipse(width/2 + 320, height/2 + 290, 4, 4);
+  ellipse(width/2 + 328, height/2 + 290, 4, 4);
+
+  // Laser Sprite
+  stroke(255);
+  fill(255, 90);
+  ellipse(width/2 + 360, height/2 + 290, 30, 30);
+  stroke(0, 0, 255);
+  line(width/2 + 352, height/2 + 290, width/2 + 368, height/2 + 290);
 }
 
 /*--------------------------------*
@@ -201,7 +235,7 @@ void drawGame()
   pushMatrix();
   createPlayer();
   popMatrix();
-  updateGuns();
+  updatepowerUps();
   enemyUpdate();
   drawText();
   collisionHandler();
@@ -362,21 +396,21 @@ void updateBullets()
   }
 }
 /*--------------------------------*
- * Draws differant gun types or powerups
+ * Draws differant powerUp types or powerups
 /*--------------------------------*/
 
-void updateGuns()
+void updatepowerUps()
 {
   if (millis()- powerTime > powerAllowance)
   {
-    gun.add(new Gun(new PVector (random(0, width), random(0, height)), player));
+    powerUp.add(new PowerUp(new PVector (random(0, width), random(0, height)), player));
     powerCD = (int) random(9999, 10250);//randomise the time between power ups
     powerTime = millis();
   }
 
-  for (int i =0; i < gun.size(); i ++)
+  for (int i =0; i < powerUp.size(); i ++)
   {
-    gun.get(i).update();
+    powerUp.get(i).update();
   }
 }
 
