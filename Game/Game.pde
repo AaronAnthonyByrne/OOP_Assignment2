@@ -4,7 +4,7 @@
 /*--------------------------------*/
 void setup()
 {
-  
+
   size(1200, 650);
   xml = loadXML("rounds.xml");
   rounds = xml.getChildren("round");
@@ -24,13 +24,17 @@ void setup()
 //Fonts being used in game
 PFont mainTitleFont;
 
-//Arraylist
+//Array Lists
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-ArrayList<Bullet> item = new ArrayList<Bullet>();
+ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+ArrayList<Gun> gun = new ArrayList<Gun>();
 
 //Classes
 Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
 Enemy enemy;
+Bullet bullet;
+Gun guns;
+
 //Boolean variables
 boolean[] keys = new boolean[1000];//to allow multiple key presses
 boolean gameOn, win, rComplete, menu;
@@ -42,7 +46,7 @@ int state;
 int menuTime, menuAllowance; // to control time of the menu.
 int currentRound, totalKills, totalShots, score, level;
 int amountEnemies, remainingEnemies;// for display the total amout of enimeis and how many left to pass the round.
-int powerTime, powerAllowance;//Time that the powerups will display and the amount of time between each powerup
+int powerTime, powerAllowance, powerCD;//Time that the powerups will display and the amount of time between each powerup
 int hitTime, hitCoolDown;//
 int startTime;
 final int timeDisplay = 800;
@@ -62,8 +66,8 @@ void keyPressed()
   keys[keyCode] = true;
   if (state == 0 && (checkKey(RETURN) ||checkKey( ENTER)))
   {
+    Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
     state =1;
-
     totalKills =0;
     level =0;
     score =0;
@@ -78,6 +82,7 @@ void keyPressed()
 void keyReleased()
 {
   keys[keyCode] = false;
+  if (checkKey(RETURN) ||checkKey( ENTER));
 }
 
 boolean checkKey(int k)
@@ -100,12 +105,10 @@ void draw()
   if (state ==0)
   {
     drawMenu();
-  } 
-  else if (state == 1)
+  } else if (state == 1)
   {
     drawGame();
-  } 
-  else if (state == 2)
+  } else if (state == 2)
   {
     gameOver();
   }
@@ -131,7 +134,7 @@ void drawMenu()
     textSize(45);
     text("~~ Press ENTER to Begin ~~", width/2, height/2 + 50);
   }
-  
+
   //main title text
   textFont(mainTitleFont);
   textSize(100);
@@ -139,7 +142,7 @@ void drawMenu()
   text("Zombie Attack", width/2, height/2-110);
   textSize(40);
   text("by Aaron Byrne, C15709609", width/2, height/2-60);
-  
+
   //print the control instructions
   text("Controls: ", width/2 - 200, height/2 + 200);
   stroke(255);
@@ -147,7 +150,7 @@ void drawMenu()
   line(width/2 - 270, height/2 + 210, width/2 - 130, height/2 + 210);
   text("W A S D / Arrow Keys: Move", width/2 - 200, height/2 + 250);
   text("Mouse: Aim and Shoot", width/2 - 200, height/2 + 300);
-  
+
   //How to play instructions
   text("How to Play: ", width/2 + 200, height/2 + 200);
   stroke(255);
@@ -163,7 +166,7 @@ void drawMenu()
 
 void gameOver()
 {
-  textSize(50);
+  textSize(60);
   if (win)
   {
     text("Congratulations! You Won!", width/2, height/2-100);
@@ -171,14 +174,14 @@ void gameOver()
   {
     text("Game Over! You Lost", width/2, height/2-100);
   }
-  textSize(40);
+  textSize(50);
   text("Survived until Wave " + currentRound, width/2, height/2 - 50);
   text("-- Press ENTER to Restart --", width/2, height/2);
-  textSize(30);
+  textSize(40);
   text("Total  Kills: " + totalKills, width/2, height/2 + 100);
   text("Shots Fired: " + totalShots, width/2, height/2 + 150);
   text("Hit Accuracy: " + round(((float)totalKills / (float) totalShots)*100) + "%", width/2, height/2 + 200);
-  textSize(38);
+  textSize(48);
   text("Final Score: " + score, width/2, height/2 + 300);
 }
 
@@ -194,20 +197,14 @@ void drawGame()
   }
   //update and draw all object(enemies, player and powerups) to the screen.
   player.update();
+  updateBullets();
   pushMatrix();
   createPlayer();
   popMatrix();
+  updateGuns();
   enemyUpdate();
-  //object.update()
   drawText();
-  //for (int i = item.size() -1; i >=0; i --)
-  //{
-  //Object ob = item.get(i);
-  //ob.update();
-  // ob.render();
-  //}
-
-  //collisionHanlder();
+  collisionHanlder();
 }
 
 /*--------------------------------*
@@ -215,8 +212,8 @@ void drawGame()
 /*--------------------------------*/
 void initialiseGame()
 {
-  // ArrayList<Gun> gun = new ArrayList<Gun>();
- 
+
+
   currentRound = rounds[level].getInt("id");
   amountEnemies = rounds[level].getInt("enemies");
   remainingEnemies = amountEnemies;
@@ -229,7 +226,7 @@ void initialiseGame()
 void createPlayer()
 {
   // Laser between player & mouse
-  strokeWeight(.5);
+  strokeWeight(.9);
   stroke(255, 0, 0);
   line(mouseX, mouseY, player.pos.x, player.pos.y);
 
@@ -346,4 +343,77 @@ void enemyRender()
     enemies.add(new Enemy(new PVector(random (width -200, width+200), random(-200, 0)), player));
   }
   amountEnemies --;
+}
+
+/*--------------------------------*
+ * Draws bullets and removes them from screen if they have gone off screen
+/*--------------------------------*/
+void updateBullets()
+{
+  for (int i= 0; i < bullets.size(); i++)
+  {
+    Bullet b = bullets.get(i);
+    b.update();
+
+    if (b.pos.x < 0 ||b.pos.x > width ||b.pos.y < 0 ||b.pos.x > height ||b.alive ==false)
+    {
+      bullets.remove(i);
+    }
+  }
+}
+/*--------------------------------*
+ * Draws differant gun types or powerups
+/*--------------------------------*/
+
+void updateGuns()
+{
+  if (millis()- powerTime > powerAllowance)
+  {
+    gun.add(new Gun(new PVector (random(0, width), random(0, height), player));
+    powerCD = (int) random(9999, 10250);//randomise the time between power ups
+    powerTime = millis();
+  }
+
+  for (int i =0; i < gun.size(); i ++)
+  {
+    gun.get(i).update();
+  }
+}
+
+/*--------------------------------*
+ * Checking for collisions
+/*--------------------------------*/
+void collisionHandler()
+{
+  for (int i= bullets.size()-1; i >=0; i--)
+  {
+    for (int j = enemies.size() -1; j >=0; j --)
+    {
+      Bullet b = bullets.get(i);
+      Enemy e = enemies.get(j);
+
+      if (b.alive && e.active && checkCol(b.pos.x, b.pos.y, e.pos.x, e.pos.y, 15))
+      {
+        totalKills ++;
+        score += 50;
+        remainingEnemies --;
+        b.alive = false;
+        e.active = false;
+      }
+    }
+  }
+}
+
+/*--------------------------------*
+ * Checking for collisions; using a boolean
+/*--------------------------------*/
+boolean checkCol(float bulletX, float bulletY, float enemyX, float enemyY, float hit)
+{
+  if (dist(bulletX, bulletY, enemyX, enemyY)< hit)
+  {
+    return true;
+  } else
+  {
+    return false;
+  }
 }

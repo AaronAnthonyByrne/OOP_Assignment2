@@ -1,4 +1,4 @@
-class Enemy extends Object
+class Enemy extends gObject
 {
   PVector pos, direction;
   Player p1;
