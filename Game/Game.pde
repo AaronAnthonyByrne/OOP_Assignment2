@@ -66,8 +66,6 @@ void keyPressed()
   keys[keyCode] = true;
   if (state == 0 && (checkKey(RETURN) ||checkKey( ENTER)))
   {
-    Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
-    
     state =1;
     totalKills =0;
     level =0;
@@ -78,9 +76,6 @@ void keyPressed()
   {
     state =0;
     player.health =5;
-
-    
-    
   }
 }
 
@@ -338,18 +333,25 @@ void drawText()
 void enemyUpdate()
 {
   int timer = millis();
-  if (timer % 30 == 0 && amountEnemies>0)
+  if (amountEnemies>0  && timer % 30 == 0 )
   {
     enemyRender();
+    println( amountEnemies);
   }
   for (int i =0; i< enemies.size(); i++)
   {
+
     Enemy e = enemies.get(i);
-    e.update();
+    if (e instanceof Enemy)
+    {
+      println("The size of the enimies arrayList is:"+enemies.size());
+      e.update();
+    }
   }
   if ( remainingEnemies == 0 && level < rounds.length -1)
   {
     level ++;
+    amountEnemies =0 ;
     startTime = millis();
     gameOn = false;
     rComplete = true;
@@ -368,8 +370,7 @@ void enemyUpdate()
 
 void enemyRender()
 {
-  
-  int spawnPos = (int) random(0, 4);
+  int spawnPos = (int) random(0, 2);
   if (spawnPos == 0)
   {
     enemies.add(new Enemy(new PVector(random (-200, 0), random(-200, height + 200)), player));
@@ -378,7 +379,7 @@ void enemyRender()
   {
     enemies.add(new Enemy(new PVector(random (width, width+200), random(-200, height + 200)), player));
   }
-  if (spawnPos ==2)
+  if (spawnPos == 2)
   {
     enemies.add(new Enemy(new PVector(random (width -200, width+200), random(height, 200)), player));
   } else
