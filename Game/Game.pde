@@ -66,6 +66,9 @@ void keyPressed()
   keys[keyCode] = true;
   if (state == 0 && (checkKey(RETURN) ||checkKey( ENTER)))
   {
+    player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
+    player.pos = new PVector(width/2, height/2);
+
     state =1;
     totalKills =0;
     level =0;
@@ -209,7 +212,7 @@ void gameOver()
     text("Game Over! You Lost", width/2, height/2-100);
   }
   textSize(50);
-  text("Survived until Wave " + currentRound, width/2, height/2 - 50);
+  text("Survived until Round " + currentRound, width/2, height/2 - 50);
   text("-- Press ENTER to Restart --", width/2, height/2);
   textSize(40);
   text("Total  Kills: " + totalKills, width/2, height/2 + 100);
@@ -229,6 +232,7 @@ void drawGame()
   {
     initialiseGame();
   }
+   println(amountEnemies);
   //update and draw all object(enemies, player and powerups) to the screen.
   player.update();
   updateBullets();
@@ -239,6 +243,7 @@ void drawGame()
   enemyUpdate();
   drawText();
   collisionHandler();
+ 
 }
 
 /*--------------------------------*
@@ -248,13 +253,12 @@ void initialiseGame()
 {
 
   enemies = new ArrayList<Enemy>();
-  bullets = new ArrayList<Bullet>();
-  powerUp = new ArrayList<PowerUp>();
   enemies.clear();
-  currentRound = rounds[level].getInt("id");
-  amountEnemies = rounds[level].getInt("enemies");
+  currentRound =(int) rounds[level].getInt("id");
+  amountEnemies = (int)rounds[level].getInt("enemies");
   remainingEnemies = amountEnemies;
   gameOn= true;
+  println(amountEnemies);
 }
 
 /*--------------------------------*
@@ -267,9 +271,9 @@ void createPlayer()
   stroke(255, 0, 0);
   line(mouseX, mouseY, player.pos.x, player.pos.y);
 
-  fill(0);
+  fill(0, 255, 0);
   stroke(#FFFFFF);
-  theta = atan2(player.pos.y - mouseY, player.pos.x - mouseX);
+  theta = atan2(player.pos.y - mouseX, player.pos.x - mouseY);
   translate(player.pos.x, player.pos.y);
   rotate(-player.theta-PI); 
   strokeWeight(4);
@@ -290,7 +294,7 @@ void drawText()
   text("Round", width*.75, 40);
   text(currentRound, width*.75, 70);
 
-  if (player.bulletCoolDown !=250)
+  if (player.bulletCoolDown <=250)
   {
     fill(255, 0, 0);
     textSize(45);
@@ -333,25 +337,23 @@ void drawText()
 void enemyUpdate()
 {
   int timer = millis();
-  if (amountEnemies>0  && timer % 30 == 0 )
+  println(amountEnemies);
+  if (amountEnemies> 0 &&  timer % 30 == 0 )
   {
-    enemyRender();
-    println( amountEnemies);
+      enemyRender();
+      println("arrayList is before for loop:"+enemies.size());
   }
   for (int i =0; i< enemies.size(); i++)
   {
-
     Enemy e = enemies.get(i);
-    if (e instanceof Enemy)
-    {
-      println("The size of the enimies arrayList is:"+enemies.size());
-      e.update();
-    }
+
+    println("arrayList is:"+enemies.size());
+    e.update();
   }
+
   if ( remainingEnemies == 0 && level < rounds.length -1)
   {
     level ++;
-    amountEnemies =0 ;
     startTime = millis();
     gameOn = false;
     rComplete = true;
@@ -370,7 +372,7 @@ void enemyUpdate()
 
 void enemyRender()
 {
-  int spawnPos = (int) random(0, 2);
+  int spawnPos = (int) random(0, 3);
   if (spawnPos == 0)
   {
     enemies.add(new Enemy(new PVector(random (-200, 0), random(-200, height + 200)), player));
@@ -386,7 +388,7 @@ void enemyRender()
   {
     enemies.add(new Enemy(new PVector(random (width -200, width+200), random(-200, 0)), player));
   }
-  amountEnemies --;
+  amountEnemies -- ;
 }
 
 /*--------------------------------*

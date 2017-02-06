@@ -1,6 +1,6 @@
 class Enemy extends gObject
 {
-  PVector direction;
+  PVector direction, pos;
   Player p1;
   int speed;
   boolean active;

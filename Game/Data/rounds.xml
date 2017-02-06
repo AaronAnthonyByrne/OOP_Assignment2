@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<!-- XML with ID's and the number of enemies for each round, each round corresponds to
-the level number as a power of 2 :)  --> 
+<!-- XML with ID's and the number of enemies for each round--> 
 <rounds>
    <round id="1" enemies="2"></round>
    <round id="2" enemies="5"></round>
