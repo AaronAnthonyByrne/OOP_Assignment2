@@ -78,6 +78,8 @@ void keyPressed()
   {
     state =0;
     player.health =5;
+
+    
     
   }
 }
@@ -250,9 +252,10 @@ void drawGame()
 void initialiseGame()
 {
 
-  ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-  ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-  ArrayList<PowerUp> powerUp = new ArrayList<PowerUp>();
+  enemies = new ArrayList<Enemy>();
+  bullets = new ArrayList<Bullet>();
+  powerUp = new ArrayList<PowerUp>();
+  enemies.clear();
   currentRound = rounds[level].getInt("id");
   amountEnemies = rounds[level].getInt("enemies");
   remainingEnemies = amountEnemies;
@@ -365,6 +368,7 @@ void enemyUpdate()
 
 void enemyRender()
 {
+  
   int spawnPos = (int) random(0, 4);
   if (spawnPos == 0)
   {
