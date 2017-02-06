@@ -67,6 +67,7 @@ void keyPressed()
   if (state == 0 && (checkKey(RETURN) ||checkKey( ENTER)))
   {
     Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
+    
     state =1;
     totalKills =0;
     level =0;
@@ -76,6 +77,8 @@ void keyPressed()
   if (state == 2 && (checkKey(RETURN) ||checkKey( ENTER)))
   {
     state =0;
+    player.health =5;
+    
   }
 }
 
