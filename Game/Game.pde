@@ -25,12 +25,12 @@ void setup()
 PFont mainTitleFont;
 
 //Array Lists
-ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-ArrayList<PowerUp> powerUp = new ArrayList<PowerUp>();
+ArrayList<Enemy> enemies;
+ArrayList<Bullet> bullets;
+ArrayList<PowerUp> powerUp;
 
 //Classes
-Player player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
+Player player = new Player(width/2, height/2, 50, 'w', 's', 'a', 'd');
 Enemy enemy;
 Bullet bullet;
 PowerUp powerUps;
@@ -66,7 +66,7 @@ void keyPressed()
   keys[keyCode] = true;
   if (state == 0 && (checkKey(RETURN) ||checkKey( ENTER)))
   {
-    player = new Player(width/2, height/2, 0, 50, 'w', 's', 'a', 'd');
+    player = new Player(width/2, height/2, 50, 'w', 's', 'a', 'd');
     player.pos = new PVector(width/2, height/2);
 
     state =1;
@@ -141,8 +141,9 @@ void drawMenu()
   //main title text
   textFont(mainTitleFont);
   textSize(100);
-  fill(255);
+  fill(0,255,0);
   text("Zombie Attack", width/2, height/2-110);
+  fill(255);
   textSize(40);
   text("by Aaron Byrne, C15709609", width/2, height/2-60);
 
@@ -232,7 +233,6 @@ void drawGame()
   {
     initialiseGame();
   }
-   println(amountEnemies);
   //update and draw all object(enemies, player and powerups) to the screen.
   player.update();
   updateBullets();
@@ -243,7 +243,6 @@ void drawGame()
   enemyUpdate();
   drawText();
   collisionHandler();
- 
 }
 
 /*--------------------------------*
@@ -253,12 +252,15 @@ void initialiseGame()
 {
 
   enemies = new ArrayList<Enemy>();
+  bullets = new ArrayList<Bullet>();
+  powerUp = new ArrayList<PowerUp>();
   enemies.clear();
+  bullets.clear();
+  powerUp.clear();
   currentRound =(int) rounds[level].getInt("id");
   amountEnemies = (int)rounds[level].getInt("enemies");
   remainingEnemies = amountEnemies;
   gameOn= true;
-  println(amountEnemies);
 }
 
 /*--------------------------------*
@@ -273,12 +275,13 @@ void createPlayer()
 
   fill(0, 255, 0);
   stroke(#FFFFFF);
-  theta = atan2(player.pos.y - mouseX, player.pos.x - mouseY);
+  player.theta = atan2(player.pos.y - mouseX, player.pos.x - mouseY);
   translate(player.pos.x, player.pos.y);
   rotate(-player.theta-PI); 
   strokeWeight(4);
   ellipse(0, 0, 50, 50);
   line(0, 10, 0, 40);
+  
 }
 
 /*--------------------------------*
@@ -298,7 +301,7 @@ void drawText()
   {
     fill(255, 0, 0);
     textSize(45);
-    text(player.ammo, width/2, height -50);
+    text(player.ammo, width*.25, height -50);
   }
 
   //Text at the bottom of the screen
@@ -338,17 +341,16 @@ void enemyUpdate()
 {
   int timer = millis();
   println(amountEnemies);
-  if (amountEnemies> 0 &&  timer % 30 == 0 )
+  if ( timer % 30 == 0 && amountEnemies> 0  )
   {
-      enemyRender();
-      println("arrayList is before for loop:"+enemies.size());
+    enemyRender();
   }
   for (int i =0; i< enemies.size(); i++)
   {
-    Enemy e = enemies.get(i);
-
-    println("arrayList is:"+enemies.size());
-    e.update();
+      Enemy e = enemies.get(i);
+      println("arrayList is:"+enemies.size());
+      e.update();
+    
   }
 
   if ( remainingEnemies == 0 && level < rounds.length -1)
@@ -373,6 +375,7 @@ void enemyUpdate()
 void enemyRender()
 {
   int spawnPos = (int) random(0, 3);
+  println("Spawn in position :"+spawnPos);
   if (spawnPos == 0)
   {
     enemies.add(new Enemy(new PVector(random (-200, 0), random(-200, height + 200)), player));
@@ -416,6 +419,7 @@ void updatepowerUps()
   if (millis()- powerTime > powerAllowance)
   {
     powerUp.add(new PowerUp(new PVector (random(0, width), random(0, height)), player));
+    println("Spawned powerup!");
     powerCD = (int) random(9999, 10250);//randomise the time between power ups
     powerTime = millis();
   }

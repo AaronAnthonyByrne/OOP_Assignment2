@@ -15,13 +15,10 @@ class Player
   char up, down, left, right;
 
 
-  Player(float x, float y, float theta, float size, char up, char down, char left, char right)
+  Player(float x, float y, float size, char up, char down, char left, char right)
   {
     pos = new PVector(x, y);
-    this.theta = theta;
     this.size = size;
-
-
     this.left = left;
     this.right = right;
     this.up = up;
@@ -32,6 +29,7 @@ class Player
     fill=color(0);
     stroke = color(#FFFFFF);
     bulletFill = color(255);
+    theta =0;
   }
 
 
@@ -62,7 +60,7 @@ class Player
     // so player doesn't die instanly
     if (hitCD)
     {
-      player.stroke = color(255, 0, 0);
+      player.stroke = color(255, 255, 0);
       if (millis() - hitTime > hitCoolDown)
       {
         hitCD = false;

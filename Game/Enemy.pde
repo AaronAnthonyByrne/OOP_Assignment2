@@ -11,7 +11,7 @@ class Enemy extends gObject
     this.pos = pos;
     this. p1 = p;
     size = 50;
-    speed= (int) random(2, 5);
+    speed= (int) random(2, 4);
     active = true;
     direction = new PVector(0, 0);
     zColour = color(0, 0, 255);
@@ -23,6 +23,7 @@ class Enemy extends gObject
     {
       fill(zColour);
 
+      // Zombies run towards the player
       if (dist(p1.pos.x, p1.pos.y, pos.x, pos.y)> 50)
       {
         direction.x = p1.pos.x-pos.x;

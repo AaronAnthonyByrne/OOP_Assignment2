@@ -10,6 +10,7 @@ class PowerUp extends gObject implements Charge
     this.p=p;
     size=25;
     num = (int) random(0, 3);
+    active = true;
   }
 
   void applyto(Player player)
