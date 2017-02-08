@@ -116,10 +116,11 @@ void draw()
   //might change to a swicth stament.
   if (state ==0)
   {
+    backgroundMusic.play();
     drawMenu();
   } else if (state == 1)
   {
-    backgroundMusic.play();
+    
     drawGame();
   } else if (state == 2)
   {
