@@ -40,6 +40,7 @@ class Enemy extends gObject
           p1.hitCD = true;
         }
       }
+  
       ellipse(pos.x, pos.y, size, size);
     }
   }

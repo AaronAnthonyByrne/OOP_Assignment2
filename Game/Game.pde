@@ -1,4 +1,5 @@
-
+  
+import processing.sound.*;
 /*--------------------------------*
  *Setup
 /*--------------------------------*/
@@ -17,6 +18,11 @@ void setup()
   powerAllowance = (int)random(10000, 15000); //cast to and interger value to get whole numbers
   menuAllowance = 500;
   hitCoolDown = 800;
+  
+   hit = new SoundFile(this, "Hit.wav");
+   fired= new SoundFile(this, "bullet.wav"); 
+   pickUp = new SoundFile(this, "pickup.wav");
+   backgroundMusic = new SoundFile(this, "background.wav");
 }
 /*--------------------------------*
  * Global Variables 
@@ -45,7 +51,7 @@ float theta;
 int state; 
 int menuTime, menuAllowance; // to control time of the menu.
 int currentRound, totalKills, totalShots, score, level;
-int amountEnemies, remainingEnemies;// for display the total amout of enimeis and how many left to pass the round.
+int amountEnemies, remainingEnemies, enemyCheck;// for display the total amout of enimeis and how many left to pass the round.
 int powerTime, powerAllowance, powerCD;//Time that the powerups will display and the amount of time between each powerup
 int hitTime, hitCoolDown;//
 int startTime;
@@ -56,6 +62,9 @@ PShape healthSprite, powerUpSprite, laserSprite;
 //adding in my XML file.
 XML xml;
 XML[] rounds;
+
+//sounds
+SoundFile hit, fired, pickUp, backgroundMusic;
 
 
 /*--------------------------------*
@@ -110,10 +119,12 @@ void draw()
     drawMenu();
   } else if (state == 1)
   {
+    backgroundMusic.play();
     drawGame();
   } else if (state == 2)
   {
     gameOver();
+    backgroundMusic.stop();
   }
 }
 
@@ -213,6 +224,7 @@ void gameOver()
     text("Game Over! You Lost", width/2, height/2-100);
   }
   textSize(50);
+  fill(255);
   text("Survived until Round " + currentRound, width/2, height/2 - 50);
   text("-- Press ENTER to Restart --", width/2, height/2);
   textSize(40);
@@ -257,9 +269,10 @@ void initialiseGame()
   enemies.clear();
   bullets.clear();
   powerUp.clear();
-  currentRound =(int) rounds[level].getInt("id");
-  amountEnemies = (int)rounds[level].getInt("enemies");
+  currentRound =rounds[level].getInt("id");
+  amountEnemies = rounds[level].getInt("enemies");
   remainingEnemies = amountEnemies;
+  enemyCheck = amountEnemies;
   gameOn= true;
 }
 
@@ -293,16 +306,18 @@ void drawText()
   fill(255);
   textAlign(CENTER);
 
-  //Text for the top of the screen displaying currentRound bullet coold down and ammo.
+  //Text for the top of the screen displaying currentRound.
   text("Round", width*.75, 40);
   text(currentRound, width*.75, 70);
+  
+   //score
+  fill(255);
+  text("Score", width/2, 40);
+  text(score, width/2, 70);
+  text("Enemies Left :", width*.25, 40);
+  text(remainingEnemies, width*.25, 70);
 
-  if (player.bulletCoolDown <=250)
-  {
-    fill(255, 0, 0);
-    textSize(45);
-    text(player.ammo, width*.25, height -50);
-  }
+ 
 
   //Text at the bottom of the screen
   text("Health", width/2, height -90);
@@ -315,12 +330,13 @@ void drawText()
     rect(width*.42+(50*i), height- 60, 30, 30);
   }
 
-  //score
-  fill(255);
-  text("Score", width/2, 40);
-  text(score, width/2, 70);
-  text("Enemies Left :", width*.25, 40);
-  text(remainingEnemies, width*.25, 70);
+   if (player.bulletCoolDown <=250)
+  {
+    fill(255, 0, 0);
+    textSize(45);
+    text(player.ammo, width*.25, height -50);
+  }
+ 
 
   //when the game is completed
   if (rComplete)
@@ -340,17 +356,17 @@ void drawText()
 void enemyUpdate()
 {
   int timer = millis();
-  println(amountEnemies);
-  if ( timer % 30 == 0 && amountEnemies> 0  )
+  println("arrayList beofre adding enimies:"+enemies.size());
+  if ( timer % 30 == 0 && amountEnemies> 0 )
   {
     enemyRender();
   }
   for (int i =0; i< enemies.size(); i++)
   {
+    
       Enemy e = enemies.get(i);
       println("arrayList is:"+enemies.size());
       e.update();
-    
   }
 
   if ( remainingEnemies == 0 && level < rounds.length -1)
@@ -369,7 +385,7 @@ void enemyUpdate()
   }
 }
 /*--------------------------------*
- * Draws enemies to screen each round.
+ * Spawns the enimies some in 1 of four locations
 /*--------------------------------*/
 
 void enemyRender()
@@ -444,6 +460,7 @@ void collisionHandler()
 
       if (b.alive && e.active && checkCol(b.pos.x, b.pos.y, e.pos.x, e.pos.y, 15))
       {
+        hit.play();
         totalKills ++;
         score += 50;
         remainingEnemies --;

@@ -53,9 +53,12 @@ class PowerUp extends gObject implements Charge
         ellipse(pos.x, pos.y, size, size);
         stroke(0, 0, 255);
         line(pos.x-8, pos.y, pos.x+8, pos.y);
+         noFill();
       }
+     
       if (checkCol(p.pos.x, p.pos.y, pos.x, pos.y, size))
       {
+        pickUp.play();
         if (num ==0)
         {
           if (p.health < p.maxHealth)

@@ -82,7 +82,7 @@ class Player
       {
         PVector mousePos = new PVector(mouseX, mouseY);
         PVector location = new PVector(pos.x, pos.y);
-        //sound for firing
+        fired.play();
         bullets.add(new Bullet(player, bulletFill, location, mousePos));
         totalShots ++;
         if (ammo > 0)
