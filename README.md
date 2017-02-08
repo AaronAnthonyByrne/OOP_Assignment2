@@ -2,6 +2,7 @@
 The follwing game is built for the second OOP assignemnt for Bryan Duggan
 
 #YouTube Video
+[![Video](http://img.youtube.com/vi/k09hN_aEzC8/0.jpg)](https://www.youtube.com/watch?v=k09hN_aEzC8)
 
 #Concept
 We where given the brief over Christmas, we had to make a game. I had recently being plating
